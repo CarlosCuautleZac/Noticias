@@ -17,5 +17,9 @@ public partial class Noticia
 
     public string Descripcion { get; set; } = null!;
 
+    public int IdCategoria { get; set; }
+
+    public virtual Categoria IdCategoriaNavigation { get; set; } = null!;
+
     public virtual Usuario IdUsuarioNavigation { get; set; } = null!;
 }

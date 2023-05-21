@@ -51,6 +51,8 @@ public partial class Sistem21NoticiasContext : DbContext
 
             entity.HasIndex(e => e.IdUsuario, "fkAutor_Noticia_idx");
 
+            entity.HasIndex(e => e.IdCategoria, "fkCategoria_Noticia_idx");
+
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
@@ -60,6 +62,9 @@ public partial class Sistem21NoticiasContext : DbContext
             entity.Property(e => e.Fecha)
                 .HasColumnType("datetime")
                 .HasColumnName("fecha");
+            entity.Property(e => e.IdCategoria)
+                .HasColumnType("int(11)")
+                .HasColumnName("idCategoria");
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
@@ -69,6 +74,11 @@ public partial class Sistem21NoticiasContext : DbContext
             entity.Property(e => e.UltimaModificacion)
                 .HasColumnType("datetime")
                 .HasColumnName("ultima_modificacion");
+
+            entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Noticia)
+                .HasForeignKey(d => d.IdCategoria)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fkCategoria_Noticia");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.Noticia)
                 .HasForeignKey(d => d.IdUsuario)
