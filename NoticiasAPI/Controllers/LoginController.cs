@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using NoticiasAPI.Models;
 using NoticiasAPI.Models.DTOs;
 using NoticiasAPI.Repositories;
+using System.Security.Claims;
 
 namespace NoticiasAPI.Controllers
 {
@@ -29,6 +30,16 @@ namespace NoticiasAPI.Controllers
             else
             {
                 //hacer lo de jwt
+                //1. Crear Claims
+                //2. Crear Token
+                //3. Regresar el token
+
+                List<Claim> cliam = new()
+                {
+
+                };
+
+
                 return Ok();
             }
 
