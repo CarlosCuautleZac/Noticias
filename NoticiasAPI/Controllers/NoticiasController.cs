@@ -49,5 +49,30 @@ namespace NoticiasAPI.Controllers
             return Ok(noticias);
         }
 
+        [HttpPost]
+        public IActionResult Post(NoticiaDTO noticia)
+        {
+            //validar
+            if (noticia.IdAutor <= 0)
+            {
+                ModelState.AddModelError("", "La noticia debe contener un autor");
+            }
+
+            if (noticia.IdCategoria<=0)
+            {
+                ModelState.AddModelError("", "La noticia debe contener una categoria");
+            }
+            if (string.IsNullOrWhiteSpace(noticia.Titulo)) 
+            {
+                ModelState.AddModelError("", "El titulo no debe ir vacio");
+            }
+            if(string.IsNullOrWhiteSpace(noticia.Descripcion))
+            {
+                ModelState.AddModelError("", "La descripcion no debe ir vacia");
+            }
+            
+           
+        }
+
     }
 }
