@@ -36,6 +36,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
+app.UseStaticFiles();
 app.MapControllers();
 app.UseAuthorization();
 app.Run();
