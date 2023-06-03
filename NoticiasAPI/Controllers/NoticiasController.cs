@@ -25,6 +25,7 @@ namespace NoticiasAPI.Controllers
 
         }
 
+        [HttpGet]
         public IActionResult GetAll()
         {
             var noticias = repositoryNoticias.Get().Include(x => x.IdUsuarioNavigation).Include(x => x.IdCategoriaNavigation).ToList();
@@ -55,6 +56,28 @@ namespace NoticiasAPI.Controllers
                 path = "https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg?w=740&t=st=1684858014~exp=1684858614~hmac=0d423870b2d5bc2483c6898024e33e62e88943547e01a5f45abfc6004add664c";
 
             return path;
+        }
+
+        [HttpGet("{id:int}")]
+        public IActionResult GetAllByCategoria(int id)
+        {
+            var noticias = repositoryNoticias.Get().Include(x => x.IdUsuarioNavigation).Include(x => x.IdCategoriaNavigation)
+                .Where(x => x.IdCategoria == id).ToList();
+            var noticias_a_enviar = noticias.Select(x => new NoticiaDTO()
+            {
+                Id = x.Id,
+                Titulo = x.Titulo,
+                Autor = x.IdUsuarioNavigation.Nombre,
+                Descripcion = x.Descripcion,
+                Fecha = x.Fecha,
+                Categoria = x.IdCategoriaNavigation.Nombre,
+                Imagen = GetImage(x.Id)
+            }).ToList();
+
+            if (noticias_a_enviar.Count == 0)
+                return NoContent();
+            else
+                return Ok(noticias_a_enviar);
         }
 
         [Authorize]
@@ -129,8 +152,12 @@ namespace NoticiasAPI.Controllers
                 }
                 else
                 {
-                    var errors = ModelState.Select(x => x.Value.Errors).Where(y => y.Count() > 0).ToList();
-                    return BadRequest(errors);
+                    var errors = ModelState.SelectMany(x => x.Value.Errors)
+                       .Where(y => y.ErrorMessage != "")
+                       .Select(y => y.ErrorMessage)
+                       .ToList();
+                    string errorString = string.Join(", ", errors);
+                    return BadRequest(errorString);
                 }
 
             }
@@ -161,5 +188,8 @@ namespace NoticiasAPI.Controllers
 
             System.IO.File.WriteAllBytes(rutadelaimagen, bytesimg);
         }
+
+
+        //Hacer el put y delete
     }
 }
