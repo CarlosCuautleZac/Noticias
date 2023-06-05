@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.IdentityModel.Tokens;
 using NoticiasAPI.Models;
 using NoticiasAPI.Models.DTOs;
@@ -25,20 +26,32 @@ namespace NoticiasAPI.Controllers
         [HttpPost]
         public IActionResult Login(LoginDTO usuario)
         {
-            var usuario_conectado = repository.Get().SingleOrDefault(x => x.NombreUsuario == usuario.Username && x.Contraseña == usuario.Password);
-
-            if(usuario_conectado == null)
+            try
             {
-                return Unauthorized("Nombre de usuario ó contraseña incorrecta");
-            }
-            else
-            {
-                //hacer lo de jwt
-                //1. Crear Claims
-                //2. Crear Token
-                //3. Regresar el token
+                if (string.IsNullOrWhiteSpace(usuario.Username))
+                {
+                    return BadRequest("El nombre de usuario no debe ir vacío. Escriba el nombre de usuario o el correo electronico");
+                }
 
-                List<Claim> cliams = new()
+                if (string.IsNullOrWhiteSpace(usuario.Username))
+                {
+                    return BadRequest("La contraseña no debe ir vacia");
+                }
+
+                var usuario_conectado = repository.Get().SingleOrDefault(x => (x.NombreUsuario == usuario.Username || x.Email == usuario.Username ) && x.Contraseña == usuario.Password);
+
+                if (usuario_conectado == null)
+                {
+                    return Unauthorized("La contraseña no debe ir vacía");
+                }
+                else
+                {
+                    //hacer lo de jwt
+                    //1. Crear Claims
+                    //2. Crear Token
+                    //3. Regresar el token
+
+                    List<Claim> cliams = new()
                 {
                     new Claim("Id",usuario_conectado.Id.ToString()),
                     new Claim("Usuario", usuario_conectado.NombreUsuario),
@@ -46,22 +59,86 @@ namespace NoticiasAPI.Controllers
                     new Claim(ClaimTypes.Email, usuario_conectado.Email)
                 };
 
-                SecurityTokenDescriptor tokenDescriptor = new()
+                    SecurityTokenDescriptor tokenDescriptor = new()
+                    {
+                        Issuer = "noticias.sistemas19.com",
+                        Audience = "mauinews",
+                        IssuedAt = DateTime.UtcNow,
+                        Expires = DateTime.UtcNow.AddMinutes(30),
+                        SigningCredentials = new SigningCredentials(
+                            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TuMiChiquitita83_"))
+                            , SecurityAlgorithms.HmacSha256),
+                        Subject = new ClaimsIdentity(cliams, JwtBearerDefaults.AuthenticationScheme)
+                    };
+
+                    JwtSecurityTokenHandler handler = new();
+                    var token = handler.CreateToken(tokenDescriptor);
+
+                    return Ok(handler.WriteToken(token));
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
+        [HttpPost("registrar")]
+        public IActionResult Register(RegisterDTO usuario)
+        {
+            if (string.IsNullOrWhiteSpace(usuario.NombreUsuario))
+            {
+                ModelState.AddModelError("", "El nombre de usuario no debe ir vacío");
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.Contraseña))
+            {
+                ModelState.AddModelError("", "La contraseña no debe ir vacía");
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.Contraseña))
+            {
+                ModelState.AddModelError("", "El nombre no debe ir vacío");
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.Email))
+            {
+                ModelState.AddModelError("", "El correo electronico no debe ir vacío");
+            }
+
+            if (repository.Get().Any(x => x.NombreUsuario == usuario.NombreUsuario))
+            {
+                ModelState.AddModelError("", "El nombre de usuario ya ha sido registrado.");
+            }
+
+            if (repository.Get().Any(x => x.Email == usuario.Email))
+            {
+                ModelState.AddModelError("", "El correo electronico ya ha sido registrado.");
+            }
+
+            if (ModelState.IsValid)
+            {
+                Usuario u = new()
                 {
-                    Issuer = "noticias.sistemas19.com",
-                    Audience = "mauinews",
-                    IssuedAt = DateTime.UtcNow,
-                    Expires = DateTime.UtcNow.AddMinutes(30),
-                    SigningCredentials = new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TuMiChiquitita83_"))
-                        , SecurityAlgorithms.HmacSha256),
-                    Subject = new ClaimsIdentity(cliams, JwtBearerDefaults.AuthenticationScheme)
+                    NombreUsuario = usuario.NombreUsuario,
+                    Contraseña = usuario.Contraseña,
+                    Nombre = usuario.Nombre,
+                    Email = usuario.Email
                 };
 
-                JwtSecurityTokenHandler handler = new();
-                var token = handler.CreateToken(tokenDescriptor);
-
-                return Ok(handler.WriteToken(token));
+                repository.Insert(u);
+                return Ok();
+            }
+            else
+            {
+                var errors = ModelState.SelectMany(x => x.Value.Errors)
+                       .Where(y => y.ErrorMessage != "")
+                       .Select(y => y.ErrorMessage)
+                       .ToList();
+                string errorString = string.Join(", ", errors);
+                return BadRequest(errorString);
             }
 
         }
