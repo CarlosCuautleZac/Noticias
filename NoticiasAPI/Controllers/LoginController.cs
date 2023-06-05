@@ -37,7 +37,7 @@ namespace NoticiasAPI.Controllers
                 List<Claim> cliam = new()
                 {
                     new Claim("Id",usuario_conectado.Id.ToString()),
-
+                    new Claim(ClaimTypes.Name, usuario_conectado.NombreUsuario)
                 };
 
 
