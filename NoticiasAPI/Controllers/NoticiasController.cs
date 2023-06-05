@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 namespace NoticiasAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class NoticiasController : ControllerBase
     {
@@ -37,6 +38,8 @@ namespace NoticiasAPI.Controllers
                 Descripcion = x.Descripcion,
                 Fecha = x.Fecha,
                 Categoria = x.IdCategoriaNavigation.Nombre,
+                IdAutor = x.IdUsuario,
+                IdCategoria = x.IdCategoria,
                 Imagen = GetImage(x.Id)
             }).ToList();
 
@@ -80,7 +83,7 @@ namespace NoticiasAPI.Controllers
                 return Ok(noticias_a_enviar);
         }
 
-        [Authorize]
+       
         [HttpGet("test")]
         public IActionResult GetAllTest()
         {
@@ -121,10 +124,10 @@ namespace NoticiasAPI.Controllers
                     ModelState.AddModelError("", "La descripcion no debe ir vacia");
                 }
 
-                if (noticia.Fecha > DateTime.Now.ToMexicoTime())
-                {
-                    ModelState.AddModelError("", "La fecha de la noticia no puede ser mayor a la fecha actual.");
-                }
+                //if (noticia.Fecha > DateTime.Now.ToMexicoTime())
+                //{
+                //    ModelState.AddModelError("", "La fecha de la noticia no puede ser mayor a la fecha actual.");
+                //}
 
                 if (string.IsNullOrWhiteSpace(noticia.Imagen))
                 {
@@ -140,7 +143,7 @@ namespace NoticiasAPI.Controllers
                         Descripcion = noticia.Descripcion,
                         IdCategoria = noticia.IdCategoria,
                         IdUsuario = noticia.IdAutor,
-                        Fecha = noticia.Fecha,
+                        Fecha = DateTime.Now.ToMexicoTime(),
                         UltimaModificacion = DateTime.Now.ToMexicoTime()
                     };
 
@@ -191,5 +194,113 @@ namespace NoticiasAPI.Controllers
 
 
         //Hacer el put y delete
+
+        [HttpPut]
+        public IActionResult Put(NoticiaDTO noticia)
+        {
+            try
+            {
+                //validar
+                if (noticia.IdAutor <= 0)
+                {
+                    ModelState.AddModelError("", "La noticia debe contener un autor");
+                }
+
+                if (noticia.IdCategoria <= 0)
+                {
+                    ModelState.AddModelError("", "La noticia debe contener una categoria");
+                }
+
+                if (string.IsNullOrWhiteSpace(noticia.Titulo))
+                {
+                    ModelState.AddModelError("", "El titulo no debe ir vacio");
+                }
+                if (string.IsNullOrWhiteSpace(noticia.Descripcion))
+                {
+                    ModelState.AddModelError("", "La descripcion no debe ir vacia");
+                }
+
+                //if (noticia.Fecha > DateTime.Now.ToMexicoTime())
+                //{
+                //    ModelState.AddModelError("", "La fecha de la noticia no puede ser mayor a la fecha actual.");
+                //}
+
+                if (ModelState.IsValid)
+                {
+                    var n = repositoryNoticias.Get().FirstOrDefault(x => x.Id == noticia.Id);
+
+                    if (n != null)
+                    {
+                        n.Titulo = noticia.Titulo;
+                        n.Descripcion = noticia.Descripcion;
+                        n.IdCategoria = noticia.IdCategoria;
+                        n.Fecha = DateTime.Now.ToMexicoTime();
+                        n.UltimaModificacion = DateTime.Now.ToMexicoTime();
+
+                        repositoryNoticias.Update(n);
+
+                        if (!string.IsNullOrWhiteSpace(noticia.Imagen))
+                            GuardarImagen(noticia.Imagen, n.Id);
+
+                        return Ok();
+                    }
+                    else
+                        return NotFound("La noticia no existe o ya se ha borrado");
+                }
+                else
+                {
+                    var errors = ModelState.SelectMany(x => x.Value.Errors)
+                       .Where(y => y.ErrorMessage != "")
+                       .Select(y => y.ErrorMessage)
+                       .ToList();
+                    string errorString = string.Join(", ", errors);
+                    return BadRequest(errorString);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                var errordb = "";
+                if (ex.InnerException != null)
+                {
+                    errordb = "---" + ex.InnerException.Message;
+                }
+
+                return BadRequest(ex + errordb);
+            }
+        }
+
+        //idnoticia/idautor
+        [HttpDelete("{idNoticia}/{idAutor}")]
+        public IActionResult Delete(int idNoticia, int idAutor)
+        {
+            var noticia = repositoryNoticias.Get().FirstOrDefault(x => x.Id == idNoticia);
+
+            if (noticia != null)
+            {
+                if (noticia.IdUsuario != idAutor)
+                    return Unauthorized("No tiene permiso para eliminar una noticia que no sea suya.");
+                else
+                {
+                    repositoryNoticias.Delete(noticia);
+                    DeleteEvidence(noticia.Id);
+                    return Ok();
+                }
+            }
+            else
+            {
+                return NotFound("La noticia no existe o ya ha sido eliminada");
+            }
+        }
+
+        private void DeleteEvidence(int id)
+        {
+            string path = $"{rootpath}/img/{id}/1.png";
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+        }
     }
 }
