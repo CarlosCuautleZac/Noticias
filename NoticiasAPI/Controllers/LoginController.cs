@@ -1,9 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using NoticiasAPI.Models;
 using NoticiasAPI.Models.DTOs;
 using NoticiasAPI.Repositories;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Text;
 
 namespace NoticiasAPI.Controllers
 {
@@ -34,14 +38,30 @@ namespace NoticiasAPI.Controllers
                 //2. Crear Token
                 //3. Regresar el token
 
-                List<Claim> cliam = new()
+                List<Claim> cliams = new()
                 {
                     new Claim("Id",usuario_conectado.Id.ToString()),
-                    new Claim(ClaimTypes.Name, usuario_conectado.NombreUsuario)
+                    new Claim("Usuario", usuario_conectado.NombreUsuario),
+                    new Claim(ClaimTypes.Name, usuario_conectado.Nombre),
+                    new Claim(ClaimTypes.Email, usuario_conectado.Email)
                 };
 
+                SecurityTokenDescriptor tokenDescriptor = new()
+                {
+                    Issuer = "noticias.sistemas19.com",
+                    Audience = "mauinews",
+                    IssuedAt = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddMinutes(30),
+                    SigningCredentials = new SigningCredentials(
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TuMiChiquitita83_"))
+                        , SecurityAlgorithms.HmacSha256),
+                    Subject = new ClaimsIdentity(cliams, JwtBearerDefaults.AuthenticationScheme)
+                };
 
-                return Ok();
+                JwtSecurityTokenHandler handler = new();
+                var token = handler.CreateToken(tokenDescriptor);
+
+                return Ok(handler.WriteToken(token));
             }
 
         }

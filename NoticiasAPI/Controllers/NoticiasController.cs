@@ -11,6 +11,7 @@ using System.Linq.Expressions;
 namespace NoticiasAPI.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class NoticiasController : ControllerBase
     {
@@ -82,7 +83,7 @@ namespace NoticiasAPI.Controllers
                 return Ok(noticias_a_enviar);
         }
 
-        [Authorize]
+       
         [HttpGet("test")]
         public IActionResult GetAllTest()
         {
