@@ -40,7 +40,8 @@ namespace NoticiasAPI.Controllers
                 Categoria = x.IdCategoriaNavigation.Nombre,
                 IdAutor = x.IdUsuario,
                 IdCategoria = x.IdCategoria,
-                Imagen = GetImage(x.Id)
+                Imagen = GetImage(x.Id),
+                ImagenAutor = GetAutor(x.IdUsuario)
             }).ToList();
 
             return Ok(noticias_a_enviar);
@@ -57,6 +58,21 @@ namespace NoticiasAPI.Controllers
                 path = $"https://{host}/img/{idnoticia}/1.png";
             else
                 path = "https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-1932.jpg?w=740&t=st=1684858014~exp=1684858614~hmac=0d423870b2d5bc2483c6898024e33e62e88943547e01a5f45abfc6004add664c";
+
+            return path;
+        }
+
+
+        string GetAutor(int idautor)
+        {
+            string host = HttpContext.Request.Host.Value;
+            var imgpath = $"{rootpath}/profiles/{idautor}/1.png";
+            imgpath = imgpath.Replace("\\", "/");
+            var path = "";
+            if (System.IO.File.Exists(imgpath))
+                path = $"https://{host}/profiles/{idautor}/1.png";
+            else
+                path = $"https://{host}/profiles/user.png";
 
             return path;
         }
