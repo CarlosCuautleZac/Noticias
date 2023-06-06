@@ -18,9 +18,12 @@ namespace NoticiasAPI.Controllers
     {
         Repository<Usuario> repository;
 
-        public LoginController(Sistem21NoticiasContext context)
+        string rootpath = "";
+
+        public LoginController(Sistem21NoticiasContext context, IWebHostEnvironment environment)
         {
             repository = new(context);
+            rootpath = environment.WebRootPath;
         }
 
         [HttpPost]
@@ -38,7 +41,7 @@ namespace NoticiasAPI.Controllers
                     return BadRequest("La contraseña no debe ir vacia");
                 }
 
-                var usuario_conectado = repository.Get().SingleOrDefault(x => (x.NombreUsuario == usuario.Username || x.Email == usuario.Username ) && x.Contraseña == usuario.Password);
+                var usuario_conectado = repository.Get().SingleOrDefault(x => (x.NombreUsuario == usuario.Username || x.Email == usuario.Username) && x.Contraseña == usuario.Password);
 
                 if (usuario_conectado == null)
                 {
@@ -85,6 +88,24 @@ namespace NoticiasAPI.Controllers
         }
 
 
+        private void GuardarImagen(string imagen, int idautor)
+        {
+            var directorio = rootpath + "/profiles/" + idautor;
+
+            if (!Directory.Exists(directorio))
+            {
+                Directory.CreateDirectory(directorio);
+            }
+
+            var bytesimg = Convert.FromBase64String(imagen);
+
+            var rutadelaimagen = $"{directorio}/1.png";
+
+            System.IO.File.WriteAllBytes(rutadelaimagen, bytesimg);
+        }
+
+
+
         [HttpPost("registrar")]
         public IActionResult Register(RegisterDTO usuario)
         {
@@ -129,6 +150,10 @@ namespace NoticiasAPI.Controllers
                 };
 
                 repository.Insert(u);
+
+                if (!string.IsNullOrWhiteSpace(usuario.Foto))
+                    GuardarImagen(usuario.Foto, u.Id);
+
                 return Ok();
             }
             else

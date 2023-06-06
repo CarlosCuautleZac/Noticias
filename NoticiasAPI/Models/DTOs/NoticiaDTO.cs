@@ -14,6 +14,8 @@ namespace NoticiasAPI.Models.DTOs
         //Cuando sea para get se mandara un url de la imagen de la noticia que esta en la api, cuando sea post se enviara un base64
         public string Imagen { get; set; } = "";
 
+        public string ImagenAutor { get; set; } = "";
+
         //Estas propiedades solo se usara cuando se haga un post
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
