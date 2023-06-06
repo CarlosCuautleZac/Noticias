@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NoticiasAPP.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
@@ -10,7 +11,7 @@ namespace NoticiasAPP.Helpers
     public class LoginService
     {
         private readonly AuthService auth;
-        public string url = "https://seguridaddocentes.itesrc.net/";
+        public string url = "https://noticias.sistemas19.com/";
         HttpClient client;
         public LoginService(AuthService auth)
         {
@@ -26,7 +27,7 @@ namespace NoticiasAPP.Helpers
 
         public async Task<bool> IniciarSesion(LoginDTO login)
         {
-            if (string.IsNullOrWhiteSpace(login.Usuario) || string.IsNullOrWhiteSpace(login.Contraseña))
+            if (string.IsNullOrWhiteSpace(login.Username) || string.IsNullOrWhiteSpace(login.Password))
             {
                 throw new ArgumentException("Escriba el nombre de usuario o contraseña");
             }

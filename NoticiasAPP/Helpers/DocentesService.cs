@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace NoticiasAPP.Helpers
 {
-    internal class DocentesService
+    public class DocentesService
     {
+
     }
 }
