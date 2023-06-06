@@ -13,7 +13,12 @@ namespace NoticiasAPP
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("Gotham-Black.otf", "Black");
+                    fonts.AddFont("GothamLight.ttf", "Light");
+                    fonts.AddFont("GothamMedium.ttf", "Medium");
+                    fonts.AddFont("Gotham-Thin.otf", "Thin");
                 });
+
 
 #if DEBUG
 		builder.Logging.AddDebug();

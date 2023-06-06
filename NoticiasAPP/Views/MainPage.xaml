@@ -1,41 +1,105 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NoticiasAPP.MainPage">
+             x:Class="NoticiasAPP.MainPage"
+             Shell.NavBarIsVisible="False">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <Grid>
+        <Image Source="wall"
+               Aspect="AspectFill"
+               Opacity="1">
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+        </Image>
+        <Border BackgroundColor="#52000000"
+                HeightRequest="120"
+                StrokeShape="RoundRectangle, 20"
+                Margin="10,0,10,80"
+                VerticalOptions="End"
+                StrokeThickness="0">
+            <VerticalStackLayout VerticalOptions="Center"
+                                 Spacing="20">
+                <Button Margin="10,0"
+                        FontFamily="Black"
+                        CornerRadius="50"
+                        Pressed="Button_Pressed"
+                        BackgroundColor="#fc445e"
+                        CharacterSpacing="2"
+                        Text="INICIAR SESION"></Button>
+                <Label Text="Si no tienes cuenta, ¿que esperas?"
+                       HorizontalTextAlignment="Center"
+                       TextColor="White"
+                       FontFamily="Medium">
+                    <Label.Shadow >
+                        <Shadow Brush="Black"
+                                Offset="0,10"
+                                Radius="10"
+                                Opacity="0.8"></Shadow>
+                    </Label.Shadow>
+                </Label>
+            </VerticalStackLayout>
+            
+        </Border>
+        <Grid BackgroundColor="Black"
+              x:Name="grid"
+              Opacity="0"></Grid>
+        <Border StrokeThickness="0"
+                StrokeShape="RoundRectangle, 50,50,0,0"
+                BackgroundColor="White"
+                x:Name="border"
+                HeightRequest="650"
+                VerticalOptions="EndAndExpand">
+           
+            <Border.Shadow>
+                <Shadow Brush="Black"
+                        Offset="-50,-50"
+                        Radius="500"></Shadow>
+            </Border.Shadow>
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+            <VerticalStackLayout>
+                <Border WidthRequest="75"
+                        HeightRequest="7"
+                        Margin="0,8,0,0"
+                        StrokeThickness="0"
+                        BackgroundColor="#0d0d0d"
+                        StrokeShape="RoundRectangle, 50"></Border>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+                <Label Text="Bienvenido_"
+                       HorizontalTextAlignment="Center"
+                       FontAutoScalingEnabled="True"
+                       FontFamily="Black"
+                       FontSize="30"
+                       Margin="0,25,0,10"></Label>
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                <Border Margin="20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                    <Entry Placeholder="Email"
+                           PlaceholderColor="#515151"
+                           Margin="15,0,0,0"
+                           BackgroundColor="Transparent"></Entry>
+                </Border>
+                <Border Margin="20,10,20,20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                    <Entry Placeholder="Password"
+                           PlaceholderColor="#515151"
+                           IsPassword="True"
+                           Margin="15,0,0,0"
+                           BackgroundColor="Transparent"></Entry>
+                </Border>
 
-        </VerticalStackLayout>
-    </ScrollView>
+                <Button Text="INGRESAR"
+                        FontFamily="Black"
+                        CharacterSpacing="2"
+                        BackgroundColor="#fc445e"
+                        CornerRadius="50"
+                        Margin="20"></Button>
+
+            </VerticalStackLayout>
+            
+            
+        </Border>
+        
+    </Grid>
 
 </ContentPage>
