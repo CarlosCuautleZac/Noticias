@@ -40,6 +40,9 @@ namespace NoticiasAPP.Helpers
                 var token = await request.Content.ReadAsStringAsync();
 
                 auth.WriteToken(token);
+
+                await Shell.Current.GoToAsync("//Noticias");
+
                 return true;
             }
             else
@@ -52,7 +55,7 @@ namespace NoticiasAPP.Helpers
         public async void Logout()
         {
             auth.RemoveToken();
-            await Shell.Current.GoToAsync("login");
+            await Shell.Current.GoToAsync("//Login");
         }
     }
 

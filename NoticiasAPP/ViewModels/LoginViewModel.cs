@@ -16,18 +16,26 @@ namespace NoticiasAPP.ViewModels
         public string Password { get; set; } = "";
 
         public Command IniciarSesionCommand { get; set; }
+        public Command CerrarSesionCommand { get; set; }
+
         public LoginViewModel(LoginService login)
         {
             this.login = login;
 
             IniciarSesionCommand = new Command(IniciarSesion);
+            //CerrarSesionCommand = new Command(CerrarSesion);
         }
+
+       
 
         private async void IniciarSesion()
         {
-            LoginDTO loginDTO = new() { Username = this.Username, Password = this.Password };
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                LoginDTO loginDTO = new() { Username = this.Username, Password = this.Password };
 
-             await login.IniciarSesion(loginDTO);
+                await login.IniciarSesion(loginDTO);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NoticiasAPP.Views.NoticiasView"
-             Title="NoticiasView">
+             xmlns:vm="clr-namespace:NoticiasAPP.ViewModels"
+             x:Class="NoticiasAPP.Views.NoticiasView" x:DataType="vm:NoticiasViewModel"
+    Title="NoticiasView">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Priority="1" Text="Cerrar Sesion" Command="{Binding CerrarSesionCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ScrollView >
         <VerticalStackLayout>
             <Label Text="Explorar"
@@ -34,7 +39,9 @@
                         CornerRadius="15"
                         HeightRequest="40"
                         Padding="20,10"
-                        Text="Todo"></Button>
+                        Text="Todo"
+                        Command="{Binding CerrarSesionCommand}"
+                        ></Button>
                 <Button BackgroundColor="#f6f5f8"
                         CornerRadius="15"
                         TextColor="#b1b1b1"

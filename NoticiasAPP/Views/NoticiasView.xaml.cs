@@ -4,6 +4,8 @@ public partial class NoticiasView : ContentPage
 {
 	public NoticiasView()
 	{
-		InitializeComponent();
+        this.BindingContext = App.noticiasViewModel;
+        InitializeComponent();
+		
 	}
 }

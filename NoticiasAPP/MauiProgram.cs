@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NoticiasAPP.Helpers;
+using NoticiasAPP.Views;
 
 namespace NoticiasAPP
 {
@@ -29,7 +30,7 @@ namespace NoticiasAPP
             //WORKAROUND
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<AppShell>();
-
+            builder.Services.AddSingleton<NoticiasView>();
 
              
 

@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:NoticiasAPP"
+    xmlns:views="clr-namespace:NoticiasAPP.Views"
     Shell.FlyoutBehavior="Disabled">
 
 
@@ -15,9 +16,18 @@
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="Login" />
 
-    <ShellContent
+    <ShellContent Route="Noticias" >
+        <views:NoticiasView></views:NoticiasView>
+    </ShellContent>
+
+    <!--<ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="Login" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="Login" />-->
 
 </Shell>

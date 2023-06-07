@@ -44,7 +44,7 @@ namespace NoticiasAPP.ViewModels
             else if(page == "Noticias")
             {
                 noticiasView = new();
-                Vista = loginview;
+                Vista = noticiasView;
             }
         }
 
