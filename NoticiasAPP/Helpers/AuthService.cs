@@ -46,7 +46,9 @@ namespace NoticiasAPP.Helpers
 
         public async Task<string> ReadToken()
         {
-            token = await SecureStorage.GetAsync("JwtToken");
+            var read =  SecureStorage.GetAsync("JwtToken");
+            read.Wait();
+            token = read.Result;
             return token;
         }
 

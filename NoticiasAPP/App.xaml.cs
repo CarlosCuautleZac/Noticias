@@ -1,12 +1,15 @@
-﻿namespace NoticiasAPP
+﻿using NoticiasAPP.Helpers;
+using NoticiasAPP.ViewModels;
+
+namespace NoticiasAPP
 {
     public partial class App : Application
     {
-        public App()
+        public App(AuthService auth, LoginService login)
         {
+            
             InitializeComponent();
-
-            MainPage = new AppShell();
+            MainPage = new AppShell(auth, login);
         }
     }
 }

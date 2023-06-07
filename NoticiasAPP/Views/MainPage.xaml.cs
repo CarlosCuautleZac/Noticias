@@ -6,6 +6,7 @@
         public MainPage()
         {
             InitializeComponent();
+            //ESTO ES LOGIN
             border.TranslateTo(0, 750, 400, Easing.Linear);
         }
 

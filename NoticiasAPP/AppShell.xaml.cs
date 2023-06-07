@@ -1,10 +1,14 @@
-﻿namespace NoticiasAPP
+﻿using NoticiasAPP.Helpers;
+using NoticiasAPP.ViewModels;
+
+namespace NoticiasAPP
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(AuthService auth, LoginService login)
         {
-            InitializeComponent();
+            this.BindingContext = new ShellViewModel(auth, login);
+            InitializeComponent();  
         }
     }
 }

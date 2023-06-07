@@ -6,9 +6,18 @@
     xmlns:local="clr-namespace:NoticiasAPP"
     Shell.FlyoutBehavior="Disabled">
 
+
+    <ShellContent
+        Content="{Binding Vista}" />
+
     <ShellContent
         Title="Home"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Route="Login" />
+
+    <ShellContent
+        Title="Home"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="Login" />
 
 </Shell>

@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="wwwroot\profiles\user.png">
+    <None Include="wwwroot\profiles\user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </None>
   </ItemGroup>
 
 </Project>
