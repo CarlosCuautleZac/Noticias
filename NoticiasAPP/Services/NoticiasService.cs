@@ -24,16 +24,17 @@ namespace NoticiasAPP.Helpers
             };
             this.auth = auth;
             this.login = login;
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer" + auth.ReadToken().Result);
+            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + auth.ReadToken().Result);
         }
 
         public async Task<IEnumerable<NoticiaDTO>> Get()
         {
-            var request = await  client.GetAsync("api/noticias");
+            var request =  client.GetAsync("api/noticias");
+            request.Wait();
 
-            if(request.IsSuccessStatusCode)
+            if(request.Result.IsSuccessStatusCode)
             {
-               return await request.Content.ReadFromJsonAsync<List<NoticiaDTO>>();
+               return await request.Result.Content.ReadFromJsonAsync<List<NoticiaDTO>>();
             }
             else
                 return new List<NoticiaDTO>(); 

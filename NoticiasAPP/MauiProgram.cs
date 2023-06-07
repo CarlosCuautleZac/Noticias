@@ -31,8 +31,8 @@ namespace NoticiasAPP
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<AppShell>();
             builder.Services.AddSingleton<NoticiasView>();
+            builder.Services.AddSingleton<NoticiaView>();
 
-             
 
 #if DEBUG
             builder.Logging.AddDebug();
