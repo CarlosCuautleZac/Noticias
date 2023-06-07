@@ -15,9 +15,13 @@ namespace NoticiasAPP.ViewModels
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
         public string Mensaje { get; set; } = "";
+        public bool IsLoading { get; set; }
 
         public Command IniciarSesionCommand { get; set; }
         public Command CerrarSesionCommand { get; set; }
+
+
+        Cifrado cifrado = new Cifrado();
 
         public LoginViewModel(LoginService login)
         {
@@ -31,34 +35,68 @@ namespace NoticiasAPP.ViewModels
 
         private async void IniciarSesion()
         {
-            Mensaje = "";
-
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                if (string.IsNullOrEmpty(Username))
+                Mensaje = "";
+
+                if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
-                    Mensaje = "El nombre de usuario no debe ir vacío";
+                    
+                    OnPropertyChanged();
+
+                    if (!IsLoading)
+                    {
+                        IsLoading = true;
+
+                        if (string.IsNullOrEmpty(Username))
+                        {
+                            Mensaje = "El nombre de usuario no debe ir vacío";
+                        }
+                        if (string.IsNullOrEmpty(Password))
+                        {
+                            Mensaje = "La contraseña no debe ir vacía";
+                        }
+
+                        if (Mensaje == "")
+                        {
+                            var passcifrada = cifrado.CifradoTexto(Password.Trim());
+                            LoginDTO loginDTO = new() { Username = this.Username.Trim().ToUpper(), Password = passcifrada };
+
+                            var error = await login.IniciarSesion(loginDTO);
+                            if (error == "")
+                            {
+                                Username = "";
+                                Password = "";
+                            }
+                            else
+                            {
+                                Mensaje = error;
+                            }
+                        }
+
+                        IsLoading = false;
+                    }
+                    else
+                    {
+                        Mensaje = "Espere un momento se esta iniciando la sesión";
+                    }
+
+                    
+                    OnPropertyChanged();
                 }
-                if (string.IsNullOrEmpty(Password))
+                else
                 {
-                    Mensaje = "La contraseña no debe ir vacía";
+                    Mensaje = "No hay conexion a internet";
                 }
 
-                if (Mensaje == "")
-                {
-                    LoginDTO loginDTO = new() { Username = this.Username.Trim().ToUpper(), Password = this.Password };
-
-                    await login.IniciarSesion(loginDTO);
-                    Username = "";
-                    Password = "";
-                }           
+                OnPropertyChanged();
             }
-            else
+            catch(Exception ex)
             {
-                Mensaje = "No hay conexion a internet";
+                Mensaje = ex.Message;
+                IsLoading = false;
+                OnPropertyChanged();
             }
-
-            OnPropertyChanged();
         }
 
         public void OnPropertyChanged(string property = "")

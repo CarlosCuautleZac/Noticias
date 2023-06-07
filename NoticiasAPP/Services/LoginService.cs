@@ -25,7 +25,7 @@ namespace NoticiasAPP.Helpers
 
         }
 
-        public async Task<bool> IniciarSesion(LoginDTO login)
+        public async Task<string> IniciarSesion(LoginDTO login)
         {
             if (string.IsNullOrWhiteSpace(login.Username) || string.IsNullOrWhiteSpace(login.Password))
             {
@@ -43,12 +43,12 @@ namespace NoticiasAPP.Helpers
 
                 await Shell.Current.GoToAsync("//Noticias",true);
 
-                return true;
+                return "";
             }
             else
             {
-                var message = request.Content.ReadAsStringAsync();
-                return false;
+               return await request.Content.ReadAsStringAsync();
+                
             }
         }
 

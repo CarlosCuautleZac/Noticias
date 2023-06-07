@@ -36,16 +36,16 @@ namespace NoticiasAPI.Controllers
                     return BadRequest("El nombre de usuario no debe ir vacío. Escriba el nombre de usuario o el correo electronico");
                 }
 
-                if (string.IsNullOrWhiteSpace(usuario.Username))
+                if (string.IsNullOrWhiteSpace(usuario.Password))
                 {
-                    return BadRequest("La contraseña no debe ir vacia");
+                    return BadRequest("La contraseña no debe ir vacía");
                 }
 
                 var usuario_conectado = repository.Get().SingleOrDefault(x => (x.NombreUsuario == usuario.Username || x.Email == usuario.Username) && x.Contraseña == usuario.Password);
 
                 if (usuario_conectado == null)
                 {
-                    return Unauthorized("La contraseña no debe ir vacía");
+                    return Unauthorized("Nombre de usuario o contraseña incorrectas.");
                 }
                 else
                 {

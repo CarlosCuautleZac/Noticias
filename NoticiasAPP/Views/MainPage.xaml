@@ -101,6 +101,8 @@
                             Command="{Binding IniciarSesionCommand}"
                         Margin="20"></Button>
 
+                    <Label Text="{Binding Mensaje}" TextColor="Red"></Label>
+
                 </VerticalStackLayout>
 
 
