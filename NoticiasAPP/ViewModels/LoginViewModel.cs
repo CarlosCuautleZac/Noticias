@@ -14,6 +14,7 @@ namespace NoticiasAPP.ViewModels
         private readonly LoginService login;
         public string Username { get; set; } = "";
         public string Password { get; set; } = "";
+        public string Mensaje { get; set; } = "";
 
         public Command IniciarSesionCommand { get; set; }
         public Command CerrarSesionCommand { get; set; }
@@ -30,12 +31,39 @@ namespace NoticiasAPP.ViewModels
 
         private async void IniciarSesion()
         {
+            Mensaje = "";
+
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
             {
-                LoginDTO loginDTO = new() { Username = this.Username, Password = this.Password };
+                if (string.IsNullOrEmpty(Username))
+                {
+                    Mensaje = "El nombre de usuario no debe ir vacío";
+                }
+                if (string.IsNullOrEmpty(Password))
+                {
+                    Mensaje = "La contraseña no debe ir vacía";
+                }
 
-                await login.IniciarSesion(loginDTO);
+                if (Mensaje == "")
+                {
+                    LoginDTO loginDTO = new() { Username = this.Username.Trim().ToUpper(), Password = this.Password };
+
+                    await login.IniciarSesion(loginDTO);
+                    Username = "";
+                    Password = "";
+                }           
             }
+            else
+            {
+                Mensaje = "No hay conexion a internet";
+            }
+
+            OnPropertyChanged();
+        }
+
+        public void OnPropertyChanged(string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

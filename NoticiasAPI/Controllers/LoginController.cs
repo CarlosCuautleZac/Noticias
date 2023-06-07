@@ -143,10 +143,10 @@ namespace NoticiasAPI.Controllers
             {
                 Usuario u = new()
                 {
-                    NombreUsuario = usuario.NombreUsuario,
+                    NombreUsuario = usuario.NombreUsuario.ToUpper(),
                     Contraseña = usuario.Contraseña,
-                    Nombre = usuario.Nombre,
-                    Email = usuario.Email
+                    Nombre = usuario.Nombre.ToUpper(),
+                    Email = usuario.Email.ToUpper()
                 };
 
                 repository.Insert(u);

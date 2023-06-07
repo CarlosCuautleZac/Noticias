@@ -6,7 +6,7 @@
     Title="NoticiasView">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Priority="1" Text="Cerrar Sesion" Command="{Binding CerrarSesionCommand}"></ToolbarItem>
+        <ToolbarItem Priority="2" Text="Cerrar Sesion" Command="{Binding CerrarSesionCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
     <ScrollView >
         <VerticalStackLayout>
@@ -40,7 +40,6 @@
                         HeightRequest="40"
                         Padding="20,10"
                         Text="Todo"
-                        Command="{Binding CerrarSesionCommand}"
                         ></Button>
                 <Button BackgroundColor="#f6f5f8"
                         CornerRadius="15"

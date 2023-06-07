@@ -28,6 +28,11 @@ namespace NoticiasAPP.ViewModels
             }
         }
 
+        public void OnPropertyChanged(string property = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }
