@@ -1,4 +1,5 @@
 ﻿using NoticiasAPP.Helpers;
+using NoticiasAPP.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace NoticiasAPP.ViewModels
         private readonly AuthService auth;
         private readonly LoginService login;
         MainPage loginview;
+        NoticiasView noticiasView;
         public ContentPage Vista { get; set; }
 
         public ShellViewModel(AuthService auth, LoginService login)
@@ -37,6 +39,11 @@ namespace NoticiasAPP.ViewModels
             if (page == "Login")
             {
                 loginview = new();
+                Vista = loginview;
+            }
+            else if(page == "Noticias")
+            {
+                noticiasView = new();
                 Vista = loginview;
             }
         }

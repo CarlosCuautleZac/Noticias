@@ -7,7 +7,7 @@ namespace NoticiasAPP
     {
         public AppShell(AuthService auth, LoginService login)
         {
-            this.BindingContext = new ShellViewModel(auth, login);
+            this.BindingContext = App.shellViewModel;
             InitializeComponent();  
         }
     }

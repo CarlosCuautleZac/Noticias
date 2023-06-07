@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="NoticiasAPP.MainPage"
-             Shell.NavBarIsVisible="False">
+             xmlns:vm="clr-namespace:NoticiasAPP.ViewModels"
+             Shell.NavBarIsVisible="False" x:DataType="vm:LoginViewModel">
 
     <Grid>
         <Image Source="wall"
@@ -42,63 +43,69 @@
         <Grid BackgroundColor="Black"
               x:Name="grid"
               Opacity="0"></Grid>
-        <Border StrokeThickness="0"
+
+        <Grid x:Name="border">
+            <Border StrokeThickness="0"
                 StrokeShape="RoundRectangle, 50,50,0,0"
-                BackgroundColor="White"
-                x:Name="border"
+                BackgroundColor="White"      
                 HeightRequest="650"
                 VerticalOptions="EndAndExpand">
-           
-            <Border.Shadow>
-                <Shadow Brush="Black"
+
+                <Border.Shadow>
+                    <Shadow Brush="Black"
                         Offset="-50,-50"
                         Radius="500"></Shadow>
-            </Border.Shadow>
+                </Border.Shadow>
 
-            <VerticalStackLayout>
-                <Border WidthRequest="75"
+                <VerticalStackLayout>
+                    <Border WidthRequest="75"
                         HeightRequest="7"
                         Margin="0,8,0,0"
                         StrokeThickness="0"
                         BackgroundColor="#0d0d0d"
                         StrokeShape="RoundRectangle, 50"></Border>
 
-                <Label Text="Bienvenido_"
+                    <Label Text="Bienvenido_"
                        HorizontalTextAlignment="Center"
                        FontAutoScalingEnabled="True"
                        FontFamily="Black"
                        FontSize="30"
                        Margin="0,25,0,10"></Label>
 
-                <Border Margin="20"
+                    <Border Margin="20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                    <Entry Placeholder="Email"
+                        <Entry Placeholder="Email"
                            PlaceholderColor="#515151"
                            Margin="15,0,0,0"
+                               Text="{Binding Username}"
                            BackgroundColor="Transparent"></Entry>
-                </Border>
-                <Border Margin="20,10,20,20"
+                    </Border>
+                    <Border Margin="20,10,20,20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                    <Entry Placeholder="Password"
+                        <Entry Placeholder="Password"
                            PlaceholderColor="#515151"
                            IsPassword="True"
                            Margin="15,0,0,0"
-                           BackgroundColor="Transparent"></Entry>
-                </Border>
 
-                <Button Text="INGRESAR"
+                               Text="{Binding Password}"
+                           BackgroundColor="Transparent"></Entry>
+                    </Border>
+
+                    <Button Text="INGRESAR"
                         FontFamily="Black"
                         CharacterSpacing="2"
                         BackgroundColor="#fc445e"
                         CornerRadius="50"
+                            Command="{Binding IniciarSesionCommand}"
                         Margin="20"></Button>
 
-            </VerticalStackLayout>
-            
-            
-        </Border>
+                </VerticalStackLayout>
+
+
+            </Border>
+        </Grid>
         
     </Grid>
 
