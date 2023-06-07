@@ -40,15 +40,15 @@ namespace NoticiasAPP.ViewModels
 
         private async void VerNoticia(NoticiaDTO noticia)
         {
-            //if (noticia != null)
-            //{
-            //    Noticia = noticia;
-            await Shell.Current.Navigation.PushAsync(new NoticiaView());
-            //}
-            //else
-            //{
-            //    Mensaje = "Seleccione una noticia para continuar";
-            //}
+            if (noticia != null)
+            {
+                Noticia = noticia;
+                await Shell.Current.Navigation.PushAsync(new NoticiaView());
+            }
+            else
+            {
+                Mensaje = "Seleccione una noticia para continuar";
+            }
         }
 
         private void GetNoticias()
