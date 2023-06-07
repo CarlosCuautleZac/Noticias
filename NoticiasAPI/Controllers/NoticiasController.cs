@@ -34,7 +34,7 @@ namespace NoticiasAPI.Controllers
             {
                 Id = x.Id,
                 Titulo = x.Titulo,
-                Autor = x.IdUsuarioNavigation.Nombre,
+                Autor = ObtenerNombreAbreviado(x.IdUsuarioNavigation.Nombre),
                 Descripcion = x.Descripcion,
                 Fecha = x.Fecha,
                 Categoria = x.IdCategoriaNavigation.Nombre,
@@ -45,6 +45,27 @@ namespace NoticiasAPI.Controllers
             }).ToList();
 
             return Ok(noticias_a_enviar);
+        }
+
+
+        string ObtenerNombreAbreviado(string nombreCompleto)
+        {
+            string[] nombres = nombreCompleto.Split(' ');
+
+            if (nombres.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            string primerNombre = nombres[0];
+            string inicial = string.Empty;
+
+            if (!string.IsNullOrEmpty(primerNombre))
+            {
+                inicial = primerNombre.Substring(0, 1).ToUpper();
+            }
+
+            return $"{primerNombre} {inicial}.";
         }
 
         //Metodo para toma la imagen de la noticia
