@@ -53,6 +53,9 @@
 	  <None Remove="Resources\Fonts\Gotham-Thin.otf" />
 	  <None Remove="Resources\Fonts\GothamLight.ttf" />
 	  <None Remove="Resources\Fonts\GothamMedium.ttf" />
+	  <None Remove="Resources\Images\lupe.png" />
+	  <None Remove="Resources\Images\portadanoticia.jpg" />
+	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Images\wall.jpg" />
 	</ItemGroup>
 
@@ -60,6 +63,15 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\NoticiasView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NoticiaView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="NoticiasAPP.Views.NoticiasView"
+             Title="NoticiasView">
+    <ScrollView >
+        <VerticalStackLayout>
+            <Label Text="Explorar"
+                   FontFamily="Black"
+                   TextColor="#3e4144"
+                   FontSize="30"
+                   Margin="15,100,0,0"></Label>
+            <Label Text="Las noticias mas destacadas"
+                   FontFamily="Medium"
+                   TextColor="#8c8c8c"
+                   Margin="15,5,0,0"></Label>
+            <Border Margin="15,20,15,20"
+                    StrokeThickness="0"
+                    BackgroundColor="#f6f5f8"
+                    StrokeShape="RoundRectangle, 50">
+                <HorizontalStackLayout>
+                    <Image Source="lupe"
+                           HeightRequest="20"
+                           Margin="10,0,0,0"></Image>
+                    <Entry Placeholder="Buscar"
+                           PlaceholderColor="#b1b1b1"
+                           Margin="15,0,0,0"
+                           BackgroundColor="Transparent"></Entry>
+                </HorizontalStackLayout>
+            </Border>
+            <HorizontalStackLayout Margin="15,0,0,0"
+                                   Spacing="10">
+                <Button BackgroundColor="#fc445e"
+                        CornerRadius="15"
+                        HeightRequest="40"
+                        Padding="20,10"
+                        Text="Todo"></Button>
+                <Button BackgroundColor="#f6f5f8"
+                        CornerRadius="15"
+                        TextColor="#b1b1b1"
+                        HeightRequest="40"
+                        Padding="20,10"
+                        Text="Politica"></Button>
+                <Button BackgroundColor="#f6f5f8"
+                        CornerRadius="15"
+                        HeightRequest="40"
+                        TextColor="#b1b1b1"
+                        Padding="20,10"
+                        Text="Famosos"></Button>
+                <Button BackgroundColor="#f6f5f8"
+                        CornerRadius="15"                        
+                        TextColor="#b1b1b1"
+                        HeightRequest="40"
+                        Padding="20,10"
+                        Text="Ciencia"></Button>
+                <Button BackgroundColor="#f6f5f8"
+                        CornerRadius="15"                       
+                        TextColor="#b1b1b1"
+                        HeightRequest="40"
+                        Padding="20,10"
+                        Text="Musica"></Button>
+            </HorizontalStackLayout>
+            <VerticalStackLayout Margin="15,20,15,50"
+                                 Spacing="20">
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+                <Grid HeightRequest="120">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Frame Padding="0"
+                           CornerRadius="12">
+                        <Image Source="portadanoticia"
+                           Aspect="AspectFill"
+                           ></Image>
+                    </Frame>
+                    <Grid Grid.Column="1"
+                          Margin="10,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="20"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Politica"
+                               FontFamily="Medium"
+                               VerticalOptions="Start"
+                               TextColor="#b1b1b1"></Label>
+                        <Label Text="Esta bien que nuestros politicos ganen tanto dinero?"
+                               FontFamily="Black"
+                               FontSize="18"
+                               VerticalOptions="Center"
+                               Grid.Row="1"></Label>
+                        <HorizontalStackLayout Grid.Row="2"
+                                               VerticalOptions="End"
+                                               Spacing="10">
+                            <Image Source="user"></Image>
+                            <Label Text="Carlos C."
+                                   FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#b1b1b1"></Label>
+                            <Label FontFamily="Black"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">&#183;</Label>
+                            <Label FontFamily="Light"
+                                   VerticalOptions="Center"
+                                   TextColor="#8c8c8c">27 Feb 2023</Label>
+                        </HorizontalStackLayout>
+                    </Grid>
+                </Grid>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
