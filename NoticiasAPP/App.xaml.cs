@@ -1,4 +1,5 @@
 ﻿using NoticiasAPP.Helpers;
+using NoticiasAPP.Services;
 using NoticiasAPP.ViewModels;
 using NoticiasAPP.Views;
 
@@ -10,10 +11,10 @@ namespace NoticiasAPP
         public static ShellViewModel shellViewModel { get; set; }
         public static NoticiasViewModel noticiasViewModel  { get; set; }
 
-        public App(AuthService auth, LoginService login, NoticiasService noticiasService)
+        public App(AuthService auth, LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
         {
             loginViewModel = new(login, auth);
-            noticiasViewModel = new(login, noticiasService);
+            noticiasViewModel = new(login, noticiasService, categoriaService);
             shellViewModel = new(auth, login);
             
 

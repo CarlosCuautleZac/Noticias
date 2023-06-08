@@ -65,7 +65,7 @@
                                Text="{Binding Noticia.Titulo}"></Label>
                         <Label FontFamily="Light"
                                    VerticalOptions="Center"
-                                   TextColor="#f6f5f8">27 Feb 2023</Label>
+                                   TextColor="#f6f5f8" Text="{Binding Noticia.Fecha}"></Label>
                     </VerticalStackLayout>
                     
                 </Grid>

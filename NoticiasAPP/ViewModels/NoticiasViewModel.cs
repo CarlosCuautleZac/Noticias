@@ -1,5 +1,6 @@
 ﻿using NoticiasAPP.Helpers;
 using NoticiasAPP.Models;
+using NoticiasAPP.Services;
 using NoticiasAPP.Views;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace NoticiasAPP.ViewModels
         //Campos de services
         private readonly LoginService login;
         private readonly NoticiasService noticiasService;
+        private readonly CategoriaService categoriaService;
 
         //Comandos
         public Command CerrarSesionCommand { get; set; }
@@ -23,20 +25,60 @@ namespace NoticiasAPP.ViewModels
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
+        public List<CategoriaDTO> Categorias { get; set; } = new();
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
         public NoticiaDTO Noticia { get; set; }
         public DateTime Ahora { get; set; } = DateTime.Now;
 
         //Constructor
-        public NoticiasViewModel(LoginService login, NoticiasService noticiasService)
+        public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
         {
             this.login = login;
             this.noticiasService = noticiasService;
+            this.categoriaService = categoriaService;
             CerrarSesionCommand = new Command(CerrarSesion);
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
 
             GetNoticias();
+            GetCategorias();
+        }
+
+        public void GetCategorias()
+        {
+            Mensaje = "";
+
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+
+                OnPropertyChanged();
+
+                if (!IsLoading)
+                {
+                    IsLoading = true;
+                    OnPropertyChanged();
+
+                    Categorias.Clear();
+                    var c = categoriaService.Get().Result.ToList();
+                    c.ForEach(x => Categorias.Add(x));
+
+
+                    IsLoading = false;
+                }
+                else
+                {
+                    Mensaje = "Espere un momento se esta iniciando la sesión";
+                }
+
+
+                OnPropertyChanged();
+            }
+            else
+            {
+                Mensaje = "No hay conexion a internet";
+            }
+
+            OnPropertyChanged();
         }
 
         private async void VerNoticia(NoticiaDTO noticia)

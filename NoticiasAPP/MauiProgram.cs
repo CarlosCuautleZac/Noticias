@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NoticiasAPP.Helpers;
+using NoticiasAPP.Services;
 using NoticiasAPP.Views;
 
 namespace NoticiasAPP
@@ -26,6 +27,7 @@ namespace NoticiasAPP
             builder.Services.AddSingleton<AuthService>();
             builder.Services.AddSingleton<LoginService>();
             builder.Services.AddSingleton<NoticiasService>();
+            builder.Services.AddSingleton<CategoriaService>();
 
             //WORKAROUND
             builder.Services.AddSingleton<MainPage>();

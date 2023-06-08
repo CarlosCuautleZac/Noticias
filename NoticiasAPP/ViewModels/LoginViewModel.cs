@@ -66,6 +66,7 @@ namespace NoticiasAPP.ViewModels
                             if (error == "")
                             {
                                 App.noticiasViewModel.GetNoticias();
+                                App.noticiasViewModel.GetCategorias();
                                 Username = "";
                                 Password = "";
                             }

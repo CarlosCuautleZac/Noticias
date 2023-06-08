@@ -44,7 +44,7 @@ namespace NoticiasAPI.Controllers
                 ImagenAutor = GetAutor(x.IdUsuario)
             }).ToList();
 
-            return Ok(noticias_a_enviar);
+            return Ok(noticias_a_enviar.OrderByDescending(x=>x.Fecha));
         }
 
 
