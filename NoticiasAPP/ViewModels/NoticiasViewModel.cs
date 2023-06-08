@@ -26,6 +26,7 @@ namespace NoticiasAPP.ViewModels
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
         public NoticiaDTO Noticia { get; set; }
+        public DateTime Ahora { get; set; } = DateTime.Now;
 
         //Constructor
         public NoticiasViewModel(LoginService login, NoticiasService noticiasService)
@@ -43,6 +44,7 @@ namespace NoticiasAPP.ViewModels
             if (noticia != null)
             {
                 Noticia = noticia;
+                OnPropertyChanged();
                 await Shell.Current.Navigation.PushAsync(new NoticiaView());
             }
             else

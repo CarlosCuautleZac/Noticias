@@ -4,9 +4,11 @@
              xmlns:vm="clr-namespace:NoticiasAPP.ViewModels"
              xmlns:model="clr-namespace:NoticiasAPP.Models"
              x:Class="NoticiasAPP.Views.NoticiaView" x:DataType="vm:NoticiasViewModel"
-             Title="NoticiaView">
+             Title="NoticiaView" NavigationPage.HasNavigationBar="False"  Shell.NavBarIsVisible="False">
+    
+    
     <ScrollView>
-        <Grid x:DataType="model:NoticiaDTO">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="370"></RowDefinition>
                 <RowDefinition Height="80"></RowDefinition>
@@ -14,7 +16,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.RowSpan="2">
-                <Image Source="{Binding Imagen}"
+                <Image Source="{Binding Noticia.Imagen}"
                        Aspect="AspectFill"></Image>
                 <Grid >  
                     <Grid.Background>
@@ -55,12 +57,12 @@
                                    FontSize="14"
                                    TextColor="#f6f5f8"
                                    Padding="0"
-                                   VerticalOptions="Center" Text="{Binding Categoria}"></Label>
+                                   VerticalOptions="Center" Text="{Binding Noticia.Categoria}"></Label>
                         </Border>
                         <Label TextColor="White"
                                FontFamily="Black"
                                FontSize="24"
-                               Text="{Binding Titulo}"></Label>
+                               Text="{Binding Noticia.Titulo}"></Label>
                         <Label FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#f6f5f8">27 Feb 2023</Label>
@@ -86,9 +88,9 @@
 
                     <HorizontalStackLayout Margin="20,0"
                                            Spacing="15">
-                        <Image Source="user"
+                        <Image Source="{Binding Noticia.ImagenAutor}"
                                HeightRequest="40"></Image>
-                        <Label Text="{Binding Autor}"
+                        <Label Text="{Binding Noticia.Autor}"
                                TextColor="#555555"
                                FontSize="18"
                                FontFamily="Medium"
@@ -99,9 +101,7 @@
                            LineHeight="2"
                            Margin="15,10,15,80"
                            TextColor="#3e4144"
-                           Text="Phasellus turpis urna, eleifend consequat enim et, posuere euismod odio. Fusce pulvinar nisl non elit mattis tempor. Phasellus ornare finibus mauris, vel iaculis ipsum. Proin eleifend, ligula sed venenatis scelerisque, turpis lacus rutrum dui, in gravida justo orci nec libero. Suspendisse id augue lacus. Cras libero ante, ornare vitae velit eget, tempor viverra ante. Donec non facilisis ante, sed sodales erat. Phasellus venenatis dolor lectus, luctus volutpat quam suscipit ut. Vivamus ultricies vehicula urna, eu vulputate massa hendrerit eu. Duis pulvinar arcu in condimentum eleifend. Donec laoreet erat vitae ipsum auctor pretium. Etiam dignissim tortor id luctus tristique. In scelerisque sollicitudin tristique.
-
-Vestibulum eros libero, rhoncus vitae est faucibus, ultrices faucibus elit. Donec vestibulum aliquam metus, sit amet iaculis leo condimentum id. Vestibulum a imperdiet est. Integer a blandit est. Sed tristique odio non maximus condimentum. Quisque rhoncus risus quam, sollicitudin ultricies lorem laoreet vel. Vivamus at nulla at ligula vehicula vehicula quis nec quam."></Label>
+                           Text="{Binding Noticia.Descripcion}"></Label>
                 </Grid>
             </Border>
 

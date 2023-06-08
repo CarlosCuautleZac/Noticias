@@ -3,19 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:NoticiasAPP.ViewModels"
              xmlns:models="clr-namespace:NoticiasAPP.Models"
+             xmlns:helpers="clr-namespace:NoticiasAPP.Helpers"
              x:Class="NoticiasAPP.Views.NoticiasView" x:DataType="vm:NoticiasViewModel"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
     Title="NoticiasView">
 
+
+    <ContentPage.Resources>
+        <helpers:TimeToLabelConverter x:Key="tlb"></helpers:TimeToLabelConverter>
+    </ContentPage.Resources>
+    
     <ContentPage.ToolbarItems>
         <ToolbarItem Priority="2" Text="Cerrar Sesion" Command="{Binding CerrarSesionCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
-    <ScrollView >
+    <ScrollView>
         <VerticalStackLayout>
+
+            <Label FontSize="27"
+                           Padding="0"
+                           TextColor="Black"
+                           Margin="15,30,0,0"
+                           FontFamily="GothamBold" Text="{Binding Ahora,Converter={StaticResource tlb}}"></Label>
+
             <Label Text="Explorar"
                    FontFamily="Black"
                    TextColor="#3e4144"
                    FontSize="30"
-                   Margin="15,100,0,0"></Label>
+                   Margin="15,20,0,0"></Label>
             <Label Text="Las noticias mas destacadas"
                    FontFamily="Medium"
                    TextColor="#8c8c8c"
