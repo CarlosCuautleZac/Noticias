@@ -111,7 +111,7 @@
                                    TextColor="#8c8c8c">&#183;</Label>
                                     <Label FontFamily="Light"
                                    VerticalOptions="Center"
-                                   TextColor="#8c8c8c" Text="{Binding Fecha, StringFormat=dd/MM/yyyy}"></Label>
+                                   TextColor="#8c8c8c" Text="{Binding Fecha,StringFormat='{}{0:dd/MM/yyyy}'}"></Label>
                                 </HorizontalStackLayout>
                             </Grid>
                         </Grid>
