@@ -88,8 +88,15 @@
 
                     <HorizontalStackLayout Margin="20,0"
                                            Spacing="15">
-                        <Image Source="{Binding Noticia.ImagenAutor}"
-                               HeightRequest="40"></Image>
+                        <Frame Padding="0"    
+                               HeightRequest="35"
+                               WidthRequest="35"
+                               CornerRadius="40">
+                            <Image Source="{Binding Noticia.ImagenAutor}"
+                                   Aspect="AspectFill"
+                               ></Image>
+                        </Frame>
+                        
                         <Label Text="{Binding Noticia.Autor}"
                                TextColor="#555555"
                                FontSize="18"
