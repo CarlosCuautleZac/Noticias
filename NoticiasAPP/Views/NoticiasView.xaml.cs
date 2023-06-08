@@ -1,3 +1,6 @@
+using NoticiasAPP.Models;
+using NoticiasAPP.ViewModels;
+
 namespace NoticiasAPP.Views;
 
 public partial class NoticiasView : ContentPage
@@ -8,4 +11,22 @@ public partial class NoticiasView : ContentPage
         InitializeComponent();
 		
 	}
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var noticia = ((Grid)sender).BindingContext;
+
+        viewmodel.VerNoticiaCommand.Execute(noticia);
+    }
+
+    private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var noticia = ((Image)sender).BindingContext;
+
+        viewmodel.VerNoticiaCommand.Execute(noticia);
+    }
 }

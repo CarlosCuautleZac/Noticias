@@ -71,6 +71,10 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:NoticiaDTO">
                         <Grid Margin="0,0,0,20" HeightRequest="120">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                            </Grid.GestureRecognizers>
+                            
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="120"></ColumnDefinition>
                                 <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -78,7 +82,11 @@
                             <Frame Padding="0"
                            CornerRadius="12">
                                 <Image Source="{Binding Imagen}"
-                           Aspect="AspectFill"
+                           Aspect="AspectFill">
+
+                                    <Image.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                    </Image.GestureRecognizers>
                            ></Image>
                             </Frame>
                             <Grid Grid.Column="1"

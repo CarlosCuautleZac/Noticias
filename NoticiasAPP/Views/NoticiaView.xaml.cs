@@ -7,4 +7,9 @@ public partial class NoticiaView : ContentPage
 		InitializeComponent();
 		this.BindingContext = App.noticiasViewModel;
 	}
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+		await Shell.Current.Navigation.PopAsync();
+    }
 }

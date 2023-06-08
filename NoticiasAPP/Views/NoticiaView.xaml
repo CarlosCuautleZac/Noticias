@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="NoticiasAPP.Views.NoticiaView"
+             xmlns:vm="clr-namespace:NoticiasAPP.ViewModels"
+             xmlns:model="clr-namespace:NoticiasAPP.Models"
+             x:Class="NoticiasAPP.Views.NoticiaView" x:DataType="vm:NoticiasViewModel"
              Title="NoticiaView">
     <ScrollView>
-        <Grid>
+        <Grid x:DataType="model:NoticiaDTO">
             <Grid.RowDefinitions>
                 <RowDefinition Height="370"></RowDefinition>
                 <RowDefinition Height="80"></RowDefinition>
@@ -12,7 +14,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.RowSpan="2">
-                <Image Source="portadanoticia"
+                <Image Source="{Binding Imagen}"
                        Aspect="AspectFill"></Image>
                 <Grid >  
                     <Grid.Background>
@@ -38,7 +40,7 @@
                             Text="&#8249;"
                             Margin="15,15,0,0"
                             Padding="0,0,0,6"
-                            FontSize="20"></Button>
+                            FontSize="20" Clicked="Button_Clicked"></Button>
 
                     <VerticalStackLayout Grid.Row="2"
                                          Spacing="8"
@@ -53,12 +55,12 @@
                                    FontSize="14"
                                    TextColor="#f6f5f8"
                                    Padding="0"
-                                   VerticalOptions="Center">Politica</Label>
+                                   VerticalOptions="Center" Text="{Binding Categoria}"></Label>
                         </Border>
                         <Label TextColor="White"
                                FontFamily="Black"
                                FontSize="24"
-                               Text="Esta bien que nuestros politicos ganen tanto dinero?"></Label>
+                               Text="{Binding Titulo}"></Label>
                         <Label FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#f6f5f8">27 Feb 2023</Label>
@@ -86,7 +88,7 @@
                                            Spacing="15">
                         <Image Source="user"
                                HeightRequest="40"></Image>
-                        <Label Text="Carlos C."
+                        <Label Text="{Binding Autor}"
                                TextColor="#555555"
                                FontSize="18"
                                FontFamily="Medium"
