@@ -24,11 +24,14 @@ namespace NoticiasAPP.Helpers
             };
             this.auth = auth;
             this.login = login;
-            client.DefaultRequestHeaders.Add("Authorization", "Bearer " + auth.ReadToken().Result);
+            
+           
         }
 
         public async Task<IEnumerable<NoticiaDTO>> Get()
         {
+            Verificar();
+
             var request =  client.GetAsync("api/noticias");
             request.Wait();
 
@@ -38,6 +41,12 @@ namespace NoticiasAPP.Helpers
             }
             else
                 return new List<NoticiaDTO>(); 
+        }
+
+        private void Verificar()
+        {
+            if (auth.IsAuthenticated && auth.IsValid && client.DefaultRequestHeaders.Authorization==null)
+                client.DefaultRequestHeaders.Add("Authorization", "Bearer " + auth.ReadToken().Result);
         }
 
         public async Task<string> Post(NoticiaDTO noticia)

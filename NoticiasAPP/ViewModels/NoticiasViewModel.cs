@@ -51,7 +51,7 @@ namespace NoticiasAPP.ViewModels
             }
         }
 
-        private void GetNoticias()
+        public void GetNoticias()
         {
             Mensaje = "";
 

@@ -23,7 +23,7 @@ namespace NoticiasAPP.ViewModels
 
         Cifrado cifrado = new Cifrado();
 
-        public LoginViewModel(LoginService login)
+        public LoginViewModel(LoginService login, AuthService auth)
         {
             this.login = login;
 
@@ -65,6 +65,7 @@ namespace NoticiasAPP.ViewModels
                             var error = await login.IniciarSesion(loginDTO);
                             if (error == "")
                             {
+                                App.noticiasViewModel.GetNoticias();
                                 Username = "";
                                 Password = "";
                             }
