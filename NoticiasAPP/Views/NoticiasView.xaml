@@ -64,7 +64,7 @@
                 </HorizontalStackLayout>
             </Border>
 
-            <Label x:Name="CategoriaActual" Text="{Binding CategoriaActual}" IsVisible="false"></Label>
+            <Label x:Name="CategoriaActual" Text="{Binding CategoriaActual.Nombre}" IsVisible="false"></Label>
 
                 <ScrollView Orientation="Horizontal" Margin="15,0,0,0">
                 <CollectionView Margin="15,0,0,0"
@@ -76,9 +76,9 @@
 
                         <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="models:CategoriaDTO">
-                            <Button x:Name="button"
-                        CornerRadius="15"  TextColor="{Binding ., Converter={StaticResource ttc}, Mode=TwoWay}"
-                        HeightRequest="40" BackgroundColor="{Binding ., Converter={StaticResource clt}, Mode=TwoWay}"
+                            <Button x:Name="buttonn"
+                        CornerRadius="15"  TextColor="{Binding ., Converter={StaticResource ttc}}"
+                        HeightRequest="40" BackgroundColor="{Binding ., Converter={StaticResource clt}, UpdateSourceEventName=PropertyChanged}"
                                     
                         Padding="20,10"
                                     Clicked="Button_Clicked"

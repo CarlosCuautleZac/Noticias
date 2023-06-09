@@ -29,7 +29,7 @@ namespace NoticiasAPP.ViewModels
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
         public ObservableCollection<NoticiaDTO> NoticiasFiltradas { get; set; } = new();
 
-        public List<CategoriaDTO> Categorias { get; set; } = new();
+        public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
         public NoticiaDTO Noticia { get; set; }
@@ -83,6 +83,9 @@ namespace NoticiasAPP.ViewModels
 
         private void FiltrarCategoria(CategoriaDTO categoria)
         {
+            var anterior = Categorias.FirstOrDefault(x => x.Id == CategoriaActual.Id);
+            var idanterior = Categorias.IndexOf(anterior);
+
             CategoriaActual = categoria;
             NoticiasFiltradas.Clear();
 
@@ -94,6 +97,12 @@ namespace NoticiasAPP.ViewModels
                 filtrados = Noticias;
 
             filtrados.ToList().ForEach(x => NoticiasFiltradas.Add(x));
+
+            var encontrado = Categorias.FirstOrDefault(x => x.Id==CategoriaActual.Id);
+            var idencontradp = Categorias.IndexOf(encontrado);
+
+            Categorias[idanterior] = encontrado;
+            Categorias[idencontradp] = anterior;
 
             OnPropertyChanged();
         }
@@ -120,7 +129,7 @@ namespace NoticiasAPP.ViewModels
 
                         Categorias.Add(new CategoriaDTO { Id = 0, Nombre = "Todo" });
                         c.ForEach(x => Categorias.Add(x));
-                        Categorias = Categorias.OrderByDescending(x => x.Id).ToList();
+                        Categorias = new(Categorias.OrderByDescending(x => x.Id));
                         CategoriaActual = Categorias[Categorias.Count - 1];
                         FiltrarCategoria(CategoriaActual);
                     }

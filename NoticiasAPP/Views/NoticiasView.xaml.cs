@@ -1,5 +1,8 @@
+using NoticiasAPP.Helpers;
 using NoticiasAPP.Models;
 using NoticiasAPP.ViewModels;
+using System;
+using System.Globalization;
 
 namespace NoticiasAPP.Views;
 
