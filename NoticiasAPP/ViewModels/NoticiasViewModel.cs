@@ -22,14 +22,19 @@ namespace NoticiasAPP.ViewModels
         //Comandos
         public Command CerrarSesionCommand { get; set; }
         public Command VerNoticiaCommand { get; set; }
+        public Command FiltrarCategoriaCommad { get; set; }
+        public Command FiltrarNoticiasByWordCommad { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
+        public ObservableCollection<NoticiaDTO> NoticiasFiltradas { get; set; } = new();
+
         public List<CategoriaDTO> Categorias { get; set; } = new();
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
         public NoticiaDTO Noticia { get; set; }
         public DateTime Ahora { get; set; } = DateTime.Now;
+        public CategoriaDTO CategoriaActual { get; set; }
 
         //Constructor
         public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
@@ -39,9 +44,58 @@ namespace NoticiasAPP.ViewModels
             this.categoriaService = categoriaService;
             CerrarSesionCommand = new Command(CerrarSesion);
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
-
+            FiltrarCategoriaCommad = new Command<CategoriaDTO>(FiltrarCategoria);
+            FiltrarNoticiasByWordCommad = new Command<string>(FiltrarNoticiasByWord);
             GetNoticias();
             GetCategorias();
+        }
+
+        private void FiltrarNoticiasByWord(string word)
+        {
+            if (Noticias.Count > 0)
+            {
+                NoticiasFiltradas.Clear();
+                IEnumerable<NoticiaDTO> noticiasfiltradas;
+
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    if (CategoriaActual.Id == 0)
+                    {
+                        noticiasfiltradas = Noticias.Where(x =>
+                    (x.Titulo.ToUpper().Contains(word.ToUpper()) /*|| x.Descripcion.ToUpper().Contains(word.ToUpper())*/)).ToList();
+                    }
+                    else
+                    {
+                        noticiasfiltradas = Noticias.Where(x => x.IdCategoria == CategoriaActual.Id &&
+                                           (x.Titulo.ToUpper().Contains(word.ToUpper()) /*|| x.Descripcion.ToUpper().Contains(word.ToUpper())*/)).ToList();
+                    }
+
+                    noticiasfiltradas.ToList().ForEach(x => NoticiasFiltradas.Add(x));
+                }
+                else
+                {
+                    FiltrarCategoria(CategoriaActual);
+                }
+
+                
+            }
+        }
+
+        private void FiltrarCategoria(CategoriaDTO categoria)
+        {
+            CategoriaActual = categoria;
+            NoticiasFiltradas.Clear();
+
+            IEnumerable<NoticiaDTO> filtrados;
+
+            if (CategoriaActual.Id != 0)
+                filtrados = Noticias.Where(x => x.IdCategoria == CategoriaActual.Id);
+            else
+                filtrados = Noticias;
+
+            filtrados.ToList().ForEach(x => NoticiasFiltradas.Add(x));
+
+            OnPropertyChanged();
         }
 
         public void GetCategorias()
@@ -59,8 +113,20 @@ namespace NoticiasAPP.ViewModels
                     OnPropertyChanged();
 
                     Categorias.Clear();
+
                     var c = categoriaService.Get().Result.ToList();
-                    c.ForEach(x => Categorias.Add(x));
+                    if (c.Count > 0)
+                    {
+
+                        Categorias.Add(new CategoriaDTO { Id = 0, Nombre = "Todo" });
+                        c.ForEach(x => Categorias.Add(x));
+                        Categorias = Categorias.OrderByDescending(x => x.Id).ToList();
+                        CategoriaActual = Categorias[Categorias.Count - 1];
+                        FiltrarCategoria(CategoriaActual);
+                    }
+
+
+
 
 
                     IsLoading = false;
