@@ -1,5 +1,8 @@
+using NoticiasAPP.Helpers;
 using NoticiasAPP.Models;
 using NoticiasAPP.ViewModels;
+using System;
+using System.Globalization;
 
 namespace NoticiasAPP.Views;
 
@@ -28,5 +31,23 @@ public partial class NoticiasView : ContentPage
         var noticia = ((Image)sender).BindingContext;
 
         viewmodel.VerNoticiaCommand.Execute(noticia);
+    }
+
+    private void Button_Clicked(object sender, EventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var categoria = ((Button)sender).BindingContext;
+
+        viewmodel.FiltrarCategoriaCommad.Execute(categoria);
+    }
+
+    private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var word = ((Entry)sender).Text;
+
+        viewmodel.FiltrarNoticiasByWordCommad.Execute(word);
     }
 }
