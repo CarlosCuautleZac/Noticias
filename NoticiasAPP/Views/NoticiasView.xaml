@@ -35,6 +35,7 @@
                            FontFamily="Black" Text="{Binding Ahora,Converter={StaticResource tlb}}"></Label>
                 <ImageButton Source="user"
                              HeightRequest="22"
+                             CornerRadius="30"
                              Command="{Binding VerPefilCommand}"
                              Grid.Column="1"
                              HorizontalOptions="End"></ImageButton>

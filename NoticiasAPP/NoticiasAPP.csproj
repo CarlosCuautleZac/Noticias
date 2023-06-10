@@ -53,6 +53,10 @@
 	  <None Remove="Resources\Fonts\Gotham-Thin.otf" />
 	  <None Remove="Resources\Fonts\GothamLight.ttf" />
 	  <None Remove="Resources\Fonts\GothamMedium.ttf" />
+	  <None Remove="Resources\Images\delete.png" />
+	  <None Remove="Resources\Images\edit.png" />
+	  <None Remove="Resources\Images\editing.png" />
+	  <None Remove="Resources\Images\logout.png" />
 	  <None Remove="Resources\Images\lupe.png" />
 	  <None Remove="Resources\Images\portadanoticia.jpg" />
 	  <None Remove="Resources\Images\user.png" />
