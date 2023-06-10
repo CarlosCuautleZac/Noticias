@@ -43,6 +43,8 @@ namespace NoticiasAPP.ViewModels
             }
             else if(page == "Noticias")
             {
+                App.noticiasViewModel.GetNoticias();
+                App.noticiasViewModel.GetCategorias();
                 noticiasView = new();
                 Vista = noticiasView;
             }

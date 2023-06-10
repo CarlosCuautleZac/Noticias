@@ -47,10 +47,8 @@ namespace NoticiasAPP.ViewModels
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
             FiltrarCategoriaCommad = new Command<CategoriaDTO>(FiltrarCategoria);
             FiltrarNoticiasByWordCommad = new Command<string>(FiltrarNoticiasByWord);
-            VerPefilCommand = new Command(VerPerfil);
-
-            GetNoticias();
-            GetCategorias();
+            //GetNoticias();
+            //GetCategorias();
         }
 
         private void FiltrarNoticiasByWord(string word)
