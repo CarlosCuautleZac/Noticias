@@ -23,6 +23,7 @@ namespace NoticiasAPP
 
             //Registro la ruta nwn
             Routing.RegisterRoute("detallesnoticia", typeof(NoticiaView));
+            Routing.RegisterRoute("perfil", typeof(PerfilView));
         }
     }
 }

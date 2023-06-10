@@ -33,6 +33,7 @@
                            FontFamily="Black" Text="{Binding Ahora,Converter={StaticResource tlb}}"></Label>
                 <ImageButton Source="user"
                              HeightRequest="22"
+                             Command="{Binding VerPefilCommand}"
                              Grid.Column="1"
                              HorizontalOptions="End"></ImageButton>
             </Grid>

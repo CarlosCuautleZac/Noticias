@@ -22,6 +22,7 @@ namespace NoticiasAPP.ViewModels
         //Comandos
         public Command CerrarSesionCommand { get; set; }
         public Command VerNoticiaCommand { get; set; }
+        public Command VerPefilCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -39,9 +40,15 @@ namespace NoticiasAPP.ViewModels
             this.categoriaService = categoriaService;
             CerrarSesionCommand = new Command(CerrarSesion);
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
+            VerPefilCommand = new Command(VerPerfil);
 
             GetNoticias();
             GetCategorias();
+        }
+
+        private async void VerPerfil()
+        {
+          await Shell.Current.Navigation.PushAsync(new PerfilView());
         }
 
         public void GetCategorias()
