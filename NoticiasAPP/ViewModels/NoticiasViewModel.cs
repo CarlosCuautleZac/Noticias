@@ -37,7 +37,7 @@ namespace NoticiasAPP.ViewModels
         public NoticiaDTO Noticia { get; set; }
         public DateTime Ahora { get; set; } = DateTime.Now;
         public CategoriaDTO CategoriaActual { get; set; }
-        public ObservableCollection<string> Evidencias
+        public ObservableCollection<string> Evidencias;
 
         //Constructor
         public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
