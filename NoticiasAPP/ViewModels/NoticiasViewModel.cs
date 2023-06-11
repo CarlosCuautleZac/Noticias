@@ -25,6 +25,7 @@ namespace NoticiasAPP.ViewModels
         public Command VerPefilCommand { get; set; }
         public Command FiltrarCategoriaCommad { get; set; }
         public Command FiltrarNoticiasByWordCommad { get; set; }
+        public Command VerPerfilCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -36,6 +37,7 @@ namespace NoticiasAPP.ViewModels
         public NoticiaDTO Noticia { get; set; }
         public DateTime Ahora { get; set; } = DateTime.Now;
         public CategoriaDTO CategoriaActual { get; set; }
+        public ObservableCollection<string> Evidencias
 
         //Constructor
         public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
@@ -47,6 +49,7 @@ namespace NoticiasAPP.ViewModels
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
             FiltrarCategoriaCommad = new Command<CategoriaDTO>(FiltrarCategoria);
             FiltrarNoticiasByWordCommad = new Command<string>(FiltrarNoticiasByWord);
+            VerPefilCommand = new Command(VerPerfil);
             //GetNoticias();
             //GetCategorias();
         }
@@ -78,7 +81,7 @@ namespace NoticiasAPP.ViewModels
                     FiltrarCategoria(CategoriaActual);
                 }
 
-                
+
             }
         }
 
@@ -99,7 +102,7 @@ namespace NoticiasAPP.ViewModels
 
             filtrados.ToList().ForEach(x => NoticiasFiltradas.Add(x));
 
-            var encontrado = Categorias.FirstOrDefault(x => x.Id==CategoriaActual.Id);
+            var encontrado = Categorias.FirstOrDefault(x => x.Id == CategoriaActual.Id);
             var idencontradp = Categorias.IndexOf(encontrado);
 
             Categorias[idanterior] = encontrado;
@@ -110,7 +113,8 @@ namespace NoticiasAPP.ViewModels
 
         private async void VerPerfil()
         {
-          await Shell.Current.Navigation.PushAsync(new PerfilView());
+            Noticia = new NoticiaDTO();
+            await Shell.Current.Navigation.PushAsync(new PerfilView());
         }
 
         public void GetCategorias()

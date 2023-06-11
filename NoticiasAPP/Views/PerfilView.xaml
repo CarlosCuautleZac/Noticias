@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:NoticiasAPP.Models"
              xmlns:helpers="clr-namespace:NoticiasAPP.Helpers"
               x:DataType="vm:NoticiasViewModel"
-             Shell.NavBarIsVisible="False"
+             Shell.NavBarIsVisible="False" x:DataType="vm:NoticiasViewModel"
              NavigationPage.HasNavigationBar="False"
              Title="PerfilView">
 
@@ -1153,13 +1153,14 @@
         <ScrollView Grid.Row="1">
             <VerticalStackLayout Margin="15"
                                      Spacing="20">
-                <Entry Placeholder="Nombre"
+                <Entry Placeholder="Titulo"
                            PlaceholderColor="#8c8c8c"
                            Margin="0,0,0,0"
+                           Text="{Binding Noticia.Titulo}"
                            BackgroundColor="Crimson"></Entry>
                 <Editor Placeholder="Descripcion de la noticia"
                            PlaceholderColor="#8c8c8c"
-                           Margin="0,0,0,0"
+                           Margin="0,0,0,0" Text="{Binding Noticia.Descripcion}"
                             HeightRequest="300"
                            BackgroundColor="Crimson"></Editor>
                 
