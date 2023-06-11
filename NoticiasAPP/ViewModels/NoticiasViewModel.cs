@@ -104,7 +104,7 @@ namespace NoticiasAPP.ViewModels
                     {
                         await GetNoticias();
                         FiltrarCategoria(CategoriaActual);
-                        await Shell.Current.Navigation.PopAsync();
+                        await Shell.Current.Navigation.PopAsync(true);
                     }
                 }
 
