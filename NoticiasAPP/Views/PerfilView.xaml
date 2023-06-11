@@ -1141,7 +1141,7 @@
                        HorizontalTextAlignment="Start"
                        Margin="15,15,0,0"></Label>
 
-            <Label Text="EDITAR"
+            <Label Text="{Binding Modo}"
                        Grid.Row="1"
                        VerticalOptions="Center"
                        HorizontalTextAlignment="Center"
@@ -1163,10 +1163,23 @@
                            Margin="0,0,0,0" Text="{Binding Noticia.Descripcion}"
                             HeightRequest="300"
                            BackgroundColor="Crimson"></Editor>
-                
-                <Button Text="Cambiar imagen"
+
+                <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding Categoria}" ItemDisplayBinding="{Binding Nombre}"></Picker>
+
+                <Button Command="{Binding CargarImagenCommand}"
                         BackgroundColor="#fc445e"
-                        CornerRadius="50"></Button>
+                        CornerRadius="50">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding Modo}" Value="EDITAR">
+                            <Setter Property="Text" Value="Cambiar Imagen"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding Modo}" Value="AGREGAR">
+                            <Setter Property="Text" Value="Cargar Imagen"></Setter>
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Image Source="{Binding Imagen}"></Image>
             </VerticalStackLayout>
         </ScrollView>
 
@@ -1181,7 +1194,7 @@
                 BackgroundColor="#8c8c8c"
                 FontFamily="Black"
                 CornerRadius="10"
-                HeightRequest="40"></Button>
+                HeightRequest="40" Clicked="Button_Clicked"></Button>
 
             <Button Text="Aceptar"
                 Margin="15"

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace NoticiasAPP.ViewModels
 {
     public class NoticiasViewModel : INotifyPropertyChanged
@@ -26,32 +27,63 @@ namespace NoticiasAPP.ViewModels
         public Command FiltrarCategoriaCommad { get; set; }
         public Command FiltrarNoticiasByWordCommad { get; set; }
         public Command VerPerfilCommand { get; set; }
+        public Command CargarImagenCommand { get;set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
         public ObservableCollection<NoticiaDTO> NoticiasFiltradas { get; set; } = new();
-
         public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
+        public List<CategoriaDTO> CategoriasPost { get; set; } = new();//Es para el post, puesto a que la otra lista contiene una propiedad que solo
+        //Jala en el cliente
+
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
         public NoticiaDTO Noticia { get; set; }
         public DateTime Ahora { get; set; } = DateTime.Now;
-        public CategoriaDTO CategoriaActual { get; set; }
+        public CategoriaDTO CategoriaActual { get; set; }//Esta es para navegar entre noticias
+        public CategoriaDTO Categoria { get; set; }//Esta es para el post
         public ObservableCollection<string> Evidencias;
+        public string Modo { get; set; } = "";
+        public ImageSource Imagen { get; set; } 
+
 
         //Constructor
         public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
         {
+            //Inyecciones
             this.login = login;
             this.noticiasService = noticiasService;
             this.categoriaService = categoriaService;
+
+            //Comandos
             CerrarSesionCommand = new Command(CerrarSesion);
             VerNoticiaCommand = new Command<NoticiaDTO>(VerNoticia);
             FiltrarCategoriaCommad = new Command<CategoriaDTO>(FiltrarCategoria);
             FiltrarNoticiasByWordCommad = new Command<string>(FiltrarNoticiasByWord);
             VerPefilCommand = new Command(VerPerfil);
-            //GetNoticias();
-            //GetCategorias();
+            CargarImagenCommand = new Command(CargarImagen);
+
+
+
+        }
+
+        private async void CargarImagen()
+        {
+            var imagen = await FilePicker.PickAsync(new PickOptions
+            {
+                FileTypes = FilePickerFileType.Images,
+                PickerTitle = "Escoga una imagen"
+            });
+
+            if (imagen != null)
+            {
+                Stream stream = await imagen.OpenReadAsync();             
+                Imagen = ImageSource.FromStream(() => stream);
+                //Image ImgNoticia = 
+                //Noticia.Imagen = 
+
+                //OnPropertyChanged();
+            }
         }
 
         private void FiltrarNoticiasByWord(string word)
@@ -113,7 +145,9 @@ namespace NoticiasAPP.ViewModels
 
         private async void VerPerfil()
         {
+            Modo = "AGREGAR";
             Noticia = new NoticiaDTO();
+            OnPropertyChanged();
             await Shell.Current.Navigation.PushAsync(new PerfilView());
         }
 
@@ -132,13 +166,14 @@ namespace NoticiasAPP.ViewModels
                     OnPropertyChanged();
 
                     Categorias.Clear();
-
+                    CategoriasPost.Clear();
                     var c = categoriaService.Get().Result.ToList();
                     if (c.Count > 0)
                     {
 
                         Categorias.Add(new CategoriaDTO { Id = 0, Nombre = "Todo" });
                         c.ForEach(x => Categorias.Add(x));
+                        c.ForEach(x => CategoriasPost.Add(x));
                         Categorias = new(Categorias.OrderByDescending(x => x.Id));
                         CategoriaActual = Categorias[Categorias.Count - 1];
                         FiltrarCategoria(CategoriaActual);

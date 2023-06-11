@@ -4,8 +4,9 @@ public partial class NoticiaView : ContentPage
 {
 	public NoticiaView()
 	{
-		InitializeComponent();
-		this.BindingContext = App.noticiasViewModel;
+        this.BindingContext = App.noticiasViewModel;
+        InitializeComponent();
+		
 	}
 
     private async void Button_Clicked(object sender, EventArgs e)
