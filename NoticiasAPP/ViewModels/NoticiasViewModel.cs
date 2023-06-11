@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,7 @@ namespace NoticiasAPP.ViewModels
         private readonly LoginService login;
         private readonly NoticiasService noticiasService;
         private readonly CategoriaService categoriaService;
+        private readonly AuthService auth;
 
         //Comandos
         public Command CerrarSesionCommand { get; set; }
@@ -27,7 +30,8 @@ namespace NoticiasAPP.ViewModels
         public Command FiltrarCategoriaCommad { get; set; }
         public Command FiltrarNoticiasByWordCommad { get; set; }
         public Command VerPerfilCommand { get; set; }
-        public Command CargarImagenCommand { get;set; }
+        public Command CargarImagenCommand { get; set; }
+        public Command EnviarNoticiaCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -44,16 +48,19 @@ namespace NoticiasAPP.ViewModels
         public CategoriaDTO Categoria { get; set; }//Esta es para el post
         public ObservableCollection<string> Evidencias;
         public string Modo { get; set; } = "";
-        public ImageSource Imagen { get; set; } 
+        public ImageSource Imagen { get; set; }
+        public Usuario Usuario { get; set; } = new();
+
 
 
         //Constructor
-        public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
+        public NoticiasViewModel(LoginService login, NoticiasService noticiasService, CategoriaService categoriaService, AuthService auth)
         {
             //Inyecciones
             this.login = login;
             this.noticiasService = noticiasService;
             this.categoriaService = categoriaService;
+            this.auth = auth;
 
             //Comandos
             CerrarSesionCommand = new Command(CerrarSesion);
@@ -62,9 +69,50 @@ namespace NoticiasAPP.ViewModels
             FiltrarNoticiasByWordCommad = new Command<string>(FiltrarNoticiasByWord);
             VerPefilCommand = new Command(VerPerfil);
             CargarImagenCommand = new Command(CargarImagen);
+            EnviarNoticiaCommand = new Command(EnviarNoticia);
 
 
+        }
 
+        private async void EnviarNoticia()
+        {
+            Mensaje = "";
+
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                if (string.IsNullOrWhiteSpace(Noticia.Titulo))
+                    Mensaje = "El titulo de la noticia no debe ir vacio." + Environment.NewLine;
+
+                if (string.IsNullOrWhiteSpace(Noticia.Descripcion))
+                    Mensaje = "El cuerpo de la noticia no debe ir vacio." + Environment.NewLine;
+
+                if (Categoria == null)
+                    Mensaje = "Seleccione una categoria." + Environment.NewLine;
+
+                if (string.IsNullOrWhiteSpace(Noticia.Imagen))
+                {
+                    Mensaje = "La noticia debe contener una imagen." + Environment.NewLine;
+                }
+
+                if (Mensaje == "")
+                {
+                    Noticia.IdCategoria = Categoria.Id;
+                    Noticia.IdAutor = Usuario.Id;
+
+                    Mensaje = await noticiasService.Post(Noticia);
+                    if (Mensaje == "Se ha enviado correctamente la noticia.")
+                    {
+                        await GetNoticias();
+                        FiltrarCategoria(CategoriaActual);
+                        await Shell.Current.Navigation.PopAsync();
+                    }
+                }
+
+            }
+            else
+            {
+                Mensaje = "No hay conexion a internet";
+            }
         }
 
         private async void CargarImagen()
@@ -77,13 +125,19 @@ namespace NoticiasAPP.ViewModels
 
             if (imagen != null)
             {
-                Stream stream = await imagen.OpenReadAsync();             
+                Stream stream = await imagen.OpenReadAsync();
                 Imagen = ImageSource.FromStream(() => stream);
-                //Image ImgNoticia = 
-                //Noticia.Imagen = 
+                Noticia.Imagen = GetBase64Image(imagen.FullPath);
 
-                //OnPropertyChanged();
+                OnPropertyChanged();
             }
+        }
+
+        private string GetBase64Image(string ruta)
+        {
+            Byte[] bytes = File.ReadAllBytes(ruta);
+            String file = Convert.ToBase64String(bytes);
+            return file;
         }
 
         private void FiltrarNoticiasByWord(string word)
@@ -215,7 +269,7 @@ namespace NoticiasAPP.ViewModels
             }
         }
 
-        public void GetNoticias()
+        public async Task GetNoticias()
         {
             Mensaje = "";
 
@@ -230,8 +284,8 @@ namespace NoticiasAPP.ViewModels
                     OnPropertyChanged();
 
                     Noticias.Clear();
-                    var noticias = noticiasService.Get().Result.ToList();
-                    noticias.ForEach(x => Noticias.Add(x));
+                    var noticias = await noticiasService.Get();
+                    noticias.ToList().ForEach(x => Noticias.Add(x));
 
 
                     IsLoading = false;
@@ -250,6 +304,16 @@ namespace NoticiasAPP.ViewModels
             }
 
             OnPropertyChanged();
+        }
+
+        public void CargarDatosUsuario()
+        {
+            var claims = auth.Cliams;
+
+            Usuario.Id = int.Parse(claims.FirstOrDefault(x => x.Type == "Id").Value);
+            Usuario.NombreUsuario = claims.FirstOrDefault(x => x.Type == "Usuario").Value;
+            Usuario.Nombre = claims.FirstOrDefault(x => x.Type == "unique_name").Value;
+            Usuario.Email = claims.FirstOrDefault(x => x.Type == "email").Value;
         }
 
         //Metodos

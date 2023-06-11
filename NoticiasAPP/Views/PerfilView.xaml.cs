@@ -10,6 +10,6 @@ public partial class PerfilView : ContentPage
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
-        await Shell.Current.Navigation.PopAsync();
+        await Shell.Current.Navigation.PopAsync(true);
     }
 }

@@ -67,6 +67,7 @@ namespace NoticiasAPP.ViewModels
                             {
                                 App.noticiasViewModel.GetNoticias();
                                 App.noticiasViewModel.GetCategorias();
+                                App.noticiasViewModel.CargarDatosUsuario();
                                 Username = "";
                                 Password = "";
                             }

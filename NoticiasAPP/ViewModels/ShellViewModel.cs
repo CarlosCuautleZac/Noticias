@@ -45,6 +45,7 @@ namespace NoticiasAPP.ViewModels
             {
                 App.noticiasViewModel.GetNoticias();
                 App.noticiasViewModel.GetCategorias();
+                App.noticiasViewModel.CargarDatosUsuario();
                 noticiasView = new();
                 Vista = noticiasView;
             }

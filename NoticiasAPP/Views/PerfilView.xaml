@@ -1164,7 +1164,11 @@
                             HeightRequest="300"
                            BackgroundColor="Crimson"></Editor>
 
-                <Picker ItemsSource="{Binding Categorias}" SelectedItem="{Binding Categoria}" ItemDisplayBinding="{Binding Nombre}"></Picker>
+                <Picker ItemsSource="{Binding CategoriasPost}"
+                        SelectedItem="{Binding Categoria}"
+                        ItemDisplayBinding="{Binding Nombre}"
+                        SelectedIndex="0"
+                        ></Picker>
 
                 <Button Command="{Binding CargarImagenCommand}"
                         BackgroundColor="#fc445e"
@@ -1200,7 +1204,7 @@
                 Margin="15"
                 BackgroundColor="#fc445e"
                 FontFamily="Black"
-                CornerRadius="10"
+                CornerRadius="10" Command="{Binding EnviarNoticiaCommand}"
                 HeightRequest="40"
                 Grid.Column="1"></Button>
 

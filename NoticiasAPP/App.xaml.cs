@@ -14,7 +14,7 @@ namespace NoticiasAPP
         public App(AuthService auth, LoginService login, NoticiasService noticiasService, CategoriaService categoriaService)
         {
             loginViewModel = new(login, auth);
-            noticiasViewModel = new(login, noticiasService, categoriaService);
+            noticiasViewModel = new(login, noticiasService, categoriaService, auth);
             shellViewModel = new(auth, login);
             
 
