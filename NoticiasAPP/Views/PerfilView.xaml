@@ -118,7 +118,7 @@
                                         </SwipeItem>
 
                                         <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
+                                       IconImageSource="delete" Clicked="SwipeItem_Clicked" />
                                     </SwipeItems>
                                 </SwipeView.LeftItems>
 
@@ -215,7 +215,7 @@
                     <Style TargetType="Border">
                         <Setter Property="IsVisible" Value="false"></Setter>
                         <Style.Triggers>
-                            <DataTrigger TargetType="Border" Binding="{Binding Modo}">
+                            <DataTrigger TargetType="Border" Binding="{Binding Modo}" Value="ELIMINAR">
                                 <Setter Property="IsVisible" Value="true"></Setter>
                             </DataTrigger>
                         </Style.Triggers>

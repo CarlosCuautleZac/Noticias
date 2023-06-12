@@ -32,4 +32,13 @@ public partial class PerfilView : ContentPage
 
         viewmodel.FiltrarMisNoticiasByWordCommand.Execute(word);
     }
+
+    private void SwipeItem_Clicked(object sender, EventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var noticia = ((SwipeItem)sender).BindingContext;
+
+        viewmodel.EliminarCommand.Execute(noticia);
+    }
 }

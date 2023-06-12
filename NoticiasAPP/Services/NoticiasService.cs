@@ -71,7 +71,7 @@ namespace NoticiasAPP.Helpers
                 return await request.Content.ReadAsStringAsync();
         }
 
-        public async Task<string> Put(int idnoticia, int idautor)
+        public async Task<string> Delete(int idnoticia, int idautor)
         {
             var request = await client.DeleteAsync($"api/noticias/{idnoticia}/{idautor}");
             if (request.IsSuccessStatusCode)

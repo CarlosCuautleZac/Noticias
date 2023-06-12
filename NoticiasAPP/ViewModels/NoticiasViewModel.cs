@@ -36,6 +36,7 @@ namespace NoticiasAPP.ViewModels
         public Command VerNuevaNoticaCommand { get; set; }
         public Command FiltrarMisNoticiasPorCategoriaCommand { get; set; }
         public Command FiltrarMisNoticiasByWordCommand { get; set; }
+        public Command EliminarCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -78,6 +79,38 @@ namespace NoticiasAPP.ViewModels
             VerNuevaNoticaCommand = new Command(VerNuevaNoticia);
             FiltrarMisNoticiasPorCategoriaCommand = new Command<CategoriaDTO>(FiltrarMisNoticiasPorCategoria);
             FiltrarMisNoticiasByWordCommand = new Command<string>(FiltrarMisNoticiasByWord);
+            EliminarCommand = new Command<NoticiaDTO>(VerEliminar);
+        }
+
+        private async void VerEliminar(NoticiaDTO noticia)
+        {
+            Mensaje = "";
+            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            {
+                if (noticia == null)
+                    Mensaje += "Eliga una noticia para eliminar";
+
+                if (noticia.Id <= 0)
+                    Mensaje += "Eliga una noticia para eliminar";
+
+                if (Usuario.Id <= 0)
+                    Mensaje += "Ha ocurrido un error. Vuelva a iniciar sesion para corregirlo.";
+
+                if(Mensaje == "")
+                {
+                    Modo = "ELIMINAR";  
+
+                }
+
+                
+            }
+            else
+            {
+                Mensaje += "No hay conexion a internet";
+            }
+
+            OnPropertyChanged();
+
         }
 
         private void FiltrarMisNoticiasByWord(string word)
@@ -141,6 +174,7 @@ namespace NoticiasAPP.ViewModels
         {
             Modo = "AGREGAR";
             Noticia = new NoticiaDTO();
+            Imagen = null;
             OnPropertyChanged();
             await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
         }
@@ -204,7 +238,6 @@ namespace NoticiasAPP.ViewModels
                 Stream stream = await imagen.OpenReadAsync();
                 Imagen = ImageSource.FromStream(() => stream);
                 Noticia.Imagen = GetBase64Image(imagen.FullPath);
-
                 OnPropertyChanged();
             }
         }
