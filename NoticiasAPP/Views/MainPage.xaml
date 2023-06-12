@@ -98,7 +98,7 @@
                     <Border Margin="20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                        <Entry Placeholder="Email"
+                        <Entry Placeholder="Nombre de usuario o correo electrónico"
                            PlaceholderColor="#515151"
                            Margin="15,0,0,0"
                                Text="{Binding Username}"
@@ -107,7 +107,7 @@
                     <Border Margin="20,10,20,20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                        <Entry Placeholder="Password"
+                        <Entry Placeholder="Contraseña"
                            PlaceholderColor="#515151"
                            IsPassword="True"
                            Margin="15,0,0,0"
@@ -183,16 +183,17 @@
                     <Border Margin="20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                        <Entry Placeholder="Email"
+                        <Entry Placeholder="Nombre de usuario"
                            PlaceholderColor="#515151"
                            Margin="15,0,0,0"
+                               
                                Text="{Binding Username}"
                            BackgroundColor="Transparent"></Entry>
                     </Border>
                     <Border Margin="20,10,20,20"
                         Stroke="#515151"
                         StrokeShape="RoundRectangle, 50">
-                        <Entry Placeholder="Password"
+                        <Entry Placeholder="Contraseña"
                            PlaceholderColor="#515151"
                            IsPassword="True"
                            Margin="15,0,0,0"
@@ -201,13 +202,35 @@
                            BackgroundColor="Transparent"></Entry>
                     </Border>
 
-                    
+
+                    <Border Margin="20,10,20,20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                        <Entry Placeholder="Nombre completo"
+                           PlaceholderColor="#515151"
+                           Margin="15,0,0,0"
+
+                               Text="{Binding Nombre}"
+                           BackgroundColor="Transparent"></Entry>
+                    </Border>
+
+                    <Border Margin="20,10,20,20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                        <Entry Placeholder="Correo electrónico"
+                           PlaceholderColor="#515151"
+                           Margin="15,0,0,0"
+                                Keyboard="Email"
+                               Text="{Binding Email}"
+                           BackgroundColor="Transparent"></Entry>
+                    </Border>
+
                     <Button Text="SUBE UNA FOTO TUYA"
                         FontFamily="Black"
                         CharacterSpacing="2"
                         BackgroundColor="#fc445e"
                         CornerRadius="50"
-                        
+                        Command="{Binding CargarImagenCommand}"
                         Margin="20"></Button>
 
                     <Frame WidthRequest="50"
@@ -216,7 +239,7 @@
                            CornerRadius="50"
                            BorderColor="Transparent">
                         <Image Aspect="AspectFill"
-                               Source="user"></Image>
+                               Source="{Binding Imagen}"></Image>
                     </Frame>
 
                     <Button Text="REGISTRARME"
@@ -224,7 +247,7 @@
                         CharacterSpacing="2"
                         BackgroundColor="#fc445e"
                         CornerRadius="50"
-                            Command="{Binding IniciarSesionCommand}"
+                            Clicked="Button_Clicked"
                         Margin="20"></Button>
 
 

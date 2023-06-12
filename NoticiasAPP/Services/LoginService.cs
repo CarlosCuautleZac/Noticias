@@ -52,6 +52,22 @@ namespace NoticiasAPP.Helpers
             }
         }
 
+
+        public async Task<string> Registar(RegisterDTO register)
+        {
+
+            var request = await client.PostAsJsonAsync("api/login/registrar", register);
+            if (request.IsSuccessStatusCode)
+            {
+                return "Se registrado con exito al usuario";
+            }
+            else
+            {
+                return await request.Content.ReadAsStringAsync();
+
+            }
+        }
+
         public async void Logout()
         {
             auth.RemoveToken();

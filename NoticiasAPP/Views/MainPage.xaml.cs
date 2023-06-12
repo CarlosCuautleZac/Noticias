@@ -1,4 +1,6 @@
-﻿namespace NoticiasAPP
+﻿using NoticiasAPP.ViewModels;
+
+namespace NoticiasAPP
 {
     public partial class MainPage : ContentPage
     {
@@ -26,12 +28,18 @@
         {
             grid.FadeTo(0.6, 500);
             border.TranslateTo(0, 0, 500, Easing.SinInOut);
+
+            var viewmodel = (LoginViewModel)this.BindingContext;
+            viewmodel.CancelarCommand.Execute(null);
         }
 
         private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
         {
             grid.FadeTo(0.6, 500);
             borderregistrar.TranslateTo(0, 0, 500, Easing.SinInOut);
+
+            var viewmodel = (LoginViewModel)this.BindingContext;
+            viewmodel.CancelarCommand.Execute(null);
         }
 
         private void TapGestureRecognizer_Tapped_1(object sender, TappedEventArgs e)
@@ -39,6 +47,9 @@
             grid.FadeTo(0, 500);
             border.TranslationX = 0;
             border.TranslationY = 750;
+
+            var viewmodel = (LoginViewModel)this.BindingContext;
+            viewmodel.CancelarCommand.Execute(null);
         }
 
         private void TapGestureRecognizer_Tapped_2(object sender, TappedEventArgs e)
@@ -47,6 +58,15 @@
 
             borderregistrar.TranslationX = 0;
             borderregistrar.TranslationY = 750;
+
+            var viewmodel = (LoginViewModel)this.BindingContext;
+            viewmodel.CancelarCommand.Execute(null);
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            var viewmodel = (LoginViewModel)this.BindingContext;
+            viewmodel.RegistrarUsuarioCommand.Execute(null);
         }
     }
 }

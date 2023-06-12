@@ -119,7 +119,7 @@ namespace NoticiasAPI.Controllers
                 ModelState.AddModelError("", "La contraseña no debe ir vacía");
             }
 
-            if (string.IsNullOrWhiteSpace(usuario.Contraseña))
+            if (string.IsNullOrWhiteSpace(usuario.Nombre))
             {
                 ModelState.AddModelError("", "El nombre no debe ir vacío");
             }
