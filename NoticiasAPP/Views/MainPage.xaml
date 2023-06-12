@@ -26,10 +26,13 @@
                         BackgroundColor="#fc445e"
                         CharacterSpacing="2"
                         Text="INICIAR SESION"></Button>
-                <Label Text="Si no tienes cuenta, ¿que esperas?"
+                <Label Text="Si no tienes cuenta, toca aquí"
                        HorizontalTextAlignment="Center"
                        TextColor="White"
                        FontFamily="Medium">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                    </Label.GestureRecognizers>
                     <Label.Shadow >
                         <Shadow Brush="Black"
                                 Offset="0,10"
@@ -58,12 +61,26 @@
                 </Border.Shadow>
 
                 <VerticalStackLayout>
-                    <Border WidthRequest="75"
+                    <Grid Margin="0,18,0,0"
+                          x:Name="cerrar">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                        </Grid.GestureRecognizers>
+                        <Border WidthRequest="35"
                         HeightRequest="7"
-                        Margin="0,8,0,0"
                         StrokeThickness="0"
+                        Rotation="45"
+                        BackgroundColor="#8c8c8c"
+                        StrokeShape="RoundRectangle, 50">
+                        </Border>
+                        <Border WidthRequest="35"
+                        HeightRequest="7"
+                        StrokeThickness="0"
+                        Rotation="-45"
                         BackgroundColor="#0d0d0d"
-                        StrokeShape="RoundRectangle, 50"></Border>
+                        StrokeShape="RoundRectangle, 50">
+                        </Border>
+                    </Grid>
 
                     <Label Text="Bienvenido_"
                        HorizontalTextAlignment="Center"
@@ -71,6 +88,12 @@
                        FontFamily="Black"
                        FontSize="30"
                        Margin="0,25,0,10"></Label>
+
+                    <Label Text="{Binding Mensaje}" 
+                           Margin="0,20,0,0"
+                           HorizontalOptions="Center"
+                           FontFamily="Medium"
+                           TextColor="Red"></Label>
 
                     <Border Margin="20"
                         Stroke="#515151"
@@ -101,14 +124,117 @@
                             Command="{Binding IniciarSesionCommand}"
                         Margin="20"></Button>
 
-                    <Label Text="{Binding Mensaje}" TextColor="Red"></Label>
 
                 </VerticalStackLayout>
 
 
             </Border>
         </Grid>
-        
+
+        <Grid x:Name="borderregistrar">
+            <Border StrokeThickness="0"
+                StrokeShape="RoundRectangle, 50,50,0,0"
+                BackgroundColor="White"      
+                HeightRequest="650"
+                VerticalOptions="EndAndExpand">
+
+                <Border.Shadow>
+                    <Shadow Brush="Black"
+                        Offset="-50,-50"
+                        Radius="500"></Shadow>
+                </Border.Shadow>
+
+                <VerticalStackLayout>
+                    <Grid Margin="0,18,0,0"
+                          x:Name="cerrarRegistrar">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_2"></TapGestureRecognizer>
+                        </Grid.GestureRecognizers>
+                        <Border WidthRequest="35"
+                        HeightRequest="7"
+                        StrokeThickness="0"
+                        Rotation="45"
+                        BackgroundColor="#8c8c8c"
+                        StrokeShape="RoundRectangle, 50">
+                        </Border>
+                        <Border WidthRequest="35"
+                        HeightRequest="7"
+                        StrokeThickness="0"
+                        Rotation="-45"
+                        BackgroundColor="#0d0d0d"
+                        StrokeShape="RoundRectangle, 50">
+                        </Border>
+                    </Grid>
+                  
+
+                    <Label Text="Registrate_"
+                       HorizontalTextAlignment="Center"
+                       FontAutoScalingEnabled="True"
+                       FontFamily="Black"
+                       FontSize="30"
+                       Margin="0,25,0,10"></Label>
+
+                    <Label Text="{Binding Mensaje}" 
+                           Margin="0,20,0,0"
+                           HorizontalOptions="Center"
+                           FontFamily="Medium"
+                           TextColor="Red"></Label>
+
+                    <Border Margin="20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                        <Entry Placeholder="Email"
+                           PlaceholderColor="#515151"
+                           Margin="15,0,0,0"
+                               Text="{Binding Username}"
+                           BackgroundColor="Transparent"></Entry>
+                    </Border>
+                    <Border Margin="20,10,20,20"
+                        Stroke="#515151"
+                        StrokeShape="RoundRectangle, 50">
+                        <Entry Placeholder="Password"
+                           PlaceholderColor="#515151"
+                           IsPassword="True"
+                           Margin="15,0,0,0"
+
+                               Text="{Binding Password}"
+                           BackgroundColor="Transparent"></Entry>
+                    </Border>
+
+                    
+                    <Button Text="SUBE UNA FOTO TUYA"
+                        FontFamily="Black"
+                        CharacterSpacing="2"
+                        BackgroundColor="#fc445e"
+                        CornerRadius="50"
+                        
+                        Margin="20"></Button>
+
+                    <Frame WidthRequest="50"
+                           HeightRequest="50"
+                           Padding="0"
+                           CornerRadius="50"
+                           BorderColor="Transparent">
+                        <Image Aspect="AspectFill"
+                               Source="user"></Image>
+                    </Frame>
+
+                    <Button Text="REGISTRARME"
+                        FontFamily="Black"
+                        CharacterSpacing="2"
+                        BackgroundColor="#fc445e"
+                        CornerRadius="50"
+                            Command="{Binding IniciarSesionCommand}"
+                        Margin="20"></Button>
+
+
+
+                </VerticalStackLayout>
+
+
+            </Border>
+        </Grid>
+
     </Grid>
 
 </ContentPage>
