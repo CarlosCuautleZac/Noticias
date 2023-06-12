@@ -12,6 +12,7 @@ namespace NoticiasAPP.ViewModels
     public class LoginViewModel : INotifyPropertyChanged
     {
         private readonly LoginService login;
+        public event Action CerrarBorder;
 
         //Para el usuario
         public string Username { get; set; } = "";
@@ -107,6 +108,11 @@ namespace NoticiasAPP.ViewModels
                         {
                             Mensaje += "El nombre de usuario no debe ir vacío" + Environment.NewLine;
                         }
+                        if(Username.Contains(" "))
+                        {
+                            Mensaje += "El nombre de usuario no debe contener espacios" + Environment.NewLine;
+                        }
+
                         if (string.IsNullOrEmpty(Password))
                         {
                             Mensaje += "La contraseña no debe ir vacía" + Environment.NewLine;
@@ -143,7 +149,7 @@ namespace NoticiasAPP.ViewModels
                                 this.Nombre = "";
                                 this.Foto = "";
                                 Email = "";
-
+                                CerrarBorder.Invoke();
                             }
                             else
                             {

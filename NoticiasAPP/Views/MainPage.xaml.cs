@@ -11,7 +11,16 @@ namespace NoticiasAPP
             //ESTO ES LOGIN
             Init();
             this.BindingContext = App.loginViewModel;
+            App.loginViewModel.CerrarBorder += LoginViewModel_CerrarBorder;
            
+        }
+
+        private void LoginViewModel_CerrarBorder()
+        {
+            grid.FadeTo(0, 500);
+
+            borderregistrar.TranslationX = 0;
+            borderregistrar.TranslationY = 750;
         }
 
         private void Init()
