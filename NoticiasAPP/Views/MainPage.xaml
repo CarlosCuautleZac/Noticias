@@ -101,6 +101,7 @@
                         <Entry Placeholder="Nombre de usuario o correo electrónico"
                            PlaceholderColor="#515151"
                            Margin="15,0,0,0"
+                               Keyboard="Email"
                                Text="{Binding Username}"
                            BackgroundColor="Transparent"></Entry>
                     </Border>

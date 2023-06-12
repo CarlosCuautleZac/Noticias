@@ -39,17 +39,18 @@
                        VerticalOptions="Center"
                        Grid.Column="0"
                            TextColor="#3e4144"
-                           FontFamily="Black" Text="Aqui va el saludo"></Label>
+                           FontFamily="Black" Text="{Binding Ahora, Converter={StaticResource tlb}}"></Label>
 
                 <ImageButton Source="logout"
                              HeightRequest="40"
                              CornerRadius="10"
+                             Command="{Binding CerrarSesionCommand}"
                              Grid.Column="2"
                              HorizontalOptions="Start"></ImageButton>
             </Grid>
 
 
-            <Label Text="Hola, Carlos C"
+            <Label Text="{Binding Usuario.Nombre, StringFormat='Hola {0:lower}'}"
                    FontFamily="Black"
                    TextColor="#3e4144"
                    FontSize="30"
@@ -69,6 +70,7 @@
                     <Entry Placeholder="Buscar"
                            PlaceholderColor="#b1b1b1"
                            Margin="15,0,0,0" 
+                           TextChanged="Entry_TextChanged"
                            BackgroundColor="Transparent"></Entry>
                 </HorizontalStackLayout>
             </Border>
@@ -89,7 +91,8 @@
                             <Button x:Name="buttonn"
                         CornerRadius="15"  TextColor="{Binding ., Converter={StaticResource ttc}}"
                         HeightRequest="40" BackgroundColor="{Binding ., Converter={StaticResource clt}, UpdateSourceEventName=PropertyChanged}"
-                                    
+                                   
+                                    Clicked="buttonn_Clicked"
                         Padding="20,10"
                         Text="{Binding Nombre}"
                         >
@@ -98,951 +101,92 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </ScrollView>
-    
 
 
 
-            <VerticalStackLayout Margin="15,20,15,50">
 
-                <SwipeView>
+                <CollectionView Margin="15,20,15,50" ItemsSource="{Binding MisNoticiasFiltradas}">
 
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <SwipeView x:DataType="models:NoticiaDTO">
+
+                                <SwipeView.LeftItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Editar"
                                        IconImageSource="editing">
-                            </SwipeItem>
-                            
-                            <SwipeItem Text="Eliminar"
+                                        </SwipeItem>
+
+                                        <SwipeItem Text="Eliminar"
                                        IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
+                                    </SwipeItems>
+                                </SwipeView.LeftItems>
 
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                            <Grid.GestureRecognizers>
-                            </Grid.GestureRecognizers>
+                                <Grid Margin="0,0,0,20" HeightRequest="120">
+                                    <Grid.GestureRecognizers>
+                                    </Grid.GestureRecognizers>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"></ColumnDefinition>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Frame Padding="0"
-                           CornerRadius="12">
-                                <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                    <Image.GestureRecognizers>
-                                        <TapGestureRecognizer></TapGestureRecognizer>
-                                    </Image.GestureRecognizers>
-                                </Image>
-                            </Frame>
-                            <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"></RowDefinition>
-                                    <RowDefinition Height="1*"></RowDefinition>
-                                    <RowDefinition Height="20"></RowDefinition>
-                                </Grid.RowDefinitions>
-
-                                <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                                <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                                <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="120"></ColumnDefinition>
+                                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
                                     <Frame Padding="0"
-                                           CornerRadius="20">
-                                        <Image Source="user"
-                                               Aspect="AspectFill"></Image>
+                           CornerRadius="12">
+                                        <Image Source="{Binding Imagen}"
+                           Aspect="AspectFill">
 
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer></TapGestureRecognizer>
+                                            </Image.GestureRecognizers>
+                                        </Image>
                                     </Frame>
-                                    <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                    <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                    <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                                </HorizontalStackLayout>
-                            </Grid>
-                        </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
+                                    <Grid Grid.Column="1"
                           Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                            <RowDefinition Height="1*"></RowDefinition>
+                                            <RowDefinition Height="20"></RowDefinition>
+                                        </Grid.RowDefinitions>
 
-                            <Label Text="Politica"
+                                        <Label Text="{Binding Categoria}"
                                FontFamily="Medium"
                                VerticalOptions="Start"
                                TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
+                                        <Label Text="{Binding Titulo}"
                                FontFamily="Black"
                                FontSize="18"
                                VerticalOptions="Center"
                                Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
+                                        <HorizontalStackLayout Grid.Row="2"
                                                VerticalOptions="End"
                                                Spacing="10">
-                                <Frame Padding="0"
+                                            <Frame Padding="0"
                                            CornerRadius="20">
-                                    <Image Source="user"
+                                                <Image Source="user"
                                                Aspect="AspectFill"></Image>
 
-                                </Frame>
-                                <Label Text="Carlos C"
+                                            </Frame>
+                                            <Label Text="{Binding Autor}"
                                    FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
+                                            <Label FontFamily="Black"
                                    VerticalOptions="Center"
                                    TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
+                                            <Label FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Grid>
+
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    
+                </CollectionView>
+                  
 
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-                <SwipeView>
-
-                    <SwipeView.LeftItems>
-                        <SwipeItems>
-                            <SwipeItem Text="Editar"
-                                       IconImageSource="editing">
-                            </SwipeItem>
-
-                            <SwipeItem Text="Eliminar"
-                                       IconImageSource="delete" />
-                        </SwipeItems>
-                    </SwipeView.LeftItems>
-
-                    <Grid Margin="0,0,0,20" HeightRequest="120">
-                        <Grid.GestureRecognizers>
-                        </Grid.GestureRecognizers>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="1*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Frame Padding="0"
-                           CornerRadius="12">
-                            <Image Source="portadanoticia"
-                           Aspect="AspectFill">
-
-                                <Image.GestureRecognizers>
-                                    <TapGestureRecognizer></TapGestureRecognizer>
-                                </Image.GestureRecognizers>
-                            </Image>
-                        </Frame>
-                        <Grid Grid.Column="1"
-                          Margin="10,0,0,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"></RowDefinition>
-                                <RowDefinition Height="1*"></RowDefinition>
-                                <RowDefinition Height="20"></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Label Text="Politica"
-                               FontFamily="Medium"
-                               VerticalOptions="Start"
-                               TextColor="#b1b1b1"></Label>
-                            <Label Text="Deberian nuestros lideres ganar tanto?"
-                               FontFamily="Black"
-                               FontSize="18"
-                               VerticalOptions="Center"
-                               Grid.Row="1"></Label>
-                            <HorizontalStackLayout Grid.Row="2"
-                                               VerticalOptions="End"
-                                               Spacing="10">
-                                <Frame Padding="0"
-                                           CornerRadius="20">
-                                    <Image Source="user"
-                                               Aspect="AspectFill"></Image>
-
-                                </Frame>
-                                <Label Text="Carlos C"
-                                   FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#b1b1b1"></Label>
-                                <Label FontFamily="Black"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c">&#183;</Label>
-                                <Label FontFamily="Light"
-                                   VerticalOptions="Center"
-                                   TextColor="#8c8c8c"></Label>
-                            </HorizontalStackLayout>
-                        </Grid>
-                    </Grid>
-
-                </SwipeView>
-
-
-            </VerticalStackLayout>
         </VerticalStackLayout>
 
           
@@ -1052,7 +196,9 @@
     </ScrollView>
        
         <Grid>
+
             
+
             <Border BackgroundColor="#f6f5f8" 
                 StrokeThickness="0"
                 StrokeShape="RoundRectangle, 20"
@@ -1064,6 +210,17 @@
                         Radius="50"
                         Opacity="0.7"></Shadow>
                 </Border.Shadow>
+
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="IsVisible" Value="false"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger TargetType="Border" Binding="{Binding Modo}">
+                                <Setter Property="IsVisible" Value="true"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1106,6 +263,7 @@
                     VerticalOptions="End"
                     HorizontalOptions="End"
                     Text="+"
+                    Command="{Binding VerNuevaNoticaCommand}"
                     FontFamily="Medium"
                     Margin="0,0,20,20"
                     FontSize="30"

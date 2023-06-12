@@ -49,6 +49,6 @@ public partial class NoticiasView : ContentPage
 
         var word = ((Entry)sender).Text;
 
-        viewmodel.FiltrarNoticiasByWordCommad.Execute(word);
+        viewmodel.FiltrarMisNoticiasByWordCommand.Execute(word);
     }
 }

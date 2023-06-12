@@ -11,6 +11,7 @@ using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using static Android.Provider.UserDictionary;
 
 
 namespace NoticiasAPP.ViewModels
@@ -32,6 +33,9 @@ namespace NoticiasAPP.ViewModels
         public Command VerPerfilCommand { get; set; }
         public Command CargarImagenCommand { get; set; }
         public Command EnviarNoticiaCommand { get; set; }
+        public Command VerNuevaNoticaCommand { get; set; }
+        public Command FiltrarMisNoticiasPorCategoriaCommand { get; set; }
+        public Command FiltrarMisNoticiasByWordCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -39,6 +43,7 @@ namespace NoticiasAPP.ViewModels
         public ObservableCollection<CategoriaDTO> Categorias { get; set; } = new();
         public List<CategoriaDTO> CategoriasPost { get; set; } = new();//Es para el post, puesto a que la otra lista contiene una propiedad que solo
         //Jala en el cliente
+        public ObservableCollection<NoticiaDTO> MisNoticiasFiltradas { get; set; } = new();
 
         public string Mensaje { get; set; }
         public bool IsLoading { get; set; }
@@ -70,8 +75,74 @@ namespace NoticiasAPP.ViewModels
             VerPefilCommand = new Command(VerPerfil);
             CargarImagenCommand = new Command(CargarImagen);
             EnviarNoticiaCommand = new Command(EnviarNoticia);
+            VerNuevaNoticaCommand = new Command(VerNuevaNoticia);
+            FiltrarMisNoticiasPorCategoriaCommand = new Command<CategoriaDTO>(FiltrarMisNoticiasPorCategoria);
+            FiltrarMisNoticiasByWordCommand = new Command<string>(FiltrarMisNoticiasByWord);
+        }
 
+        private void FiltrarMisNoticiasByWord(string word)
+        {
+            if (Noticias.Count > 0)
+            {
+                MisNoticiasFiltradas.Clear();
+                IEnumerable<NoticiaDTO> noticiasfiltradas;
 
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    if (CategoriaActual.Id == 0)
+                    {
+                        noticiasfiltradas = Noticias.Where(x =>
+                    (x.Titulo.ToUpper().Contains(word.ToUpper())) && x.IdAutor == Usuario.Id).ToList();
+                    }
+                    else
+                    {
+                        noticiasfiltradas = Noticias.Where(x => x.IdCategoria == CategoriaActual.Id &&
+                                           (x.Titulo.ToUpper().Contains(word.ToUpper())) && x.IdAutor == Usuario.Id).ToList();
+                    }
+
+                    noticiasfiltradas.ToList().ForEach(x => MisNoticiasFiltradas.Add(x));
+                }
+                else
+                {
+                    FiltrarMisNoticiasPorCategoria(CategoriaActual);
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        private void FiltrarMisNoticiasPorCategoria(CategoriaDTO categoria)
+        {
+            var anterior = Categorias.FirstOrDefault(x => x.Id == CategoriaActual.Id);
+            var idanterior = Categorias.IndexOf(anterior);
+
+            CategoriaActual = categoria;
+            MisNoticiasFiltradas.Clear();
+
+            IEnumerable<NoticiaDTO> filtrados;
+
+            if (CategoriaActual.Id != 0)
+                filtrados = Noticias.Where(x => x.IdCategoria == CategoriaActual.Id && x.IdAutor == Usuario.Id);
+            else
+                filtrados = Noticias.Where(x => x.IdAutor == Usuario.Id); ;
+
+            filtrados.ToList().ForEach(x => MisNoticiasFiltradas.Add(x));
+
+            var encontrado = Categorias.FirstOrDefault(x => x.Id == CategoriaActual.Id);
+            var idencontradp = Categorias.IndexOf(encontrado);
+
+            Categorias[idanterior] = encontrado;
+            Categorias[idencontradp] = anterior;
+
+            OnPropertyChanged();
+        }
+
+        private async void VerNuevaNoticia()
+        {
+            Modo = "AGREGAR";
+            Noticia = new NoticiaDTO();
+            OnPropertyChanged();
+            await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
         }
 
         private async void EnviarNoticia()
@@ -103,7 +174,12 @@ namespace NoticiasAPP.ViewModels
                     if (Mensaje == "Se ha enviado correctamente la noticia.")
                     {
                         await GetNoticias();
+
+
                         FiltrarCategoria(CategoriaActual);
+                        FiltrarMisNoticiasPorCategoria(CategoriaActual);
+
+
                         await Shell.Current.Navigation.PopAsync(true);
                     }
                 }
@@ -199,10 +275,9 @@ namespace NoticiasAPP.ViewModels
 
         private async void VerPerfil()
         {
-            Modo = "AGREGAR";
-            Noticia = new NoticiaDTO();
-            OnPropertyChanged();
-            await Shell.Current.Navigation.PushAsync(new PerfilView());
+            Modo = "PERFIL";
+            FiltrarMisNoticiasPorCategoria(CategoriaActual);
+            await Shell.Current.Navigation.PushAsync(new PerfilView(), true);
         }
 
         public void GetCategorias()
