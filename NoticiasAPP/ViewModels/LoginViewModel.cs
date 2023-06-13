@@ -227,8 +227,9 @@ namespace NoticiasAPP.ViewModels
                             var error = await login.IniciarSesion(loginDTO);
                             if (error == "")
                             {
-                                App.noticiasViewModel.GetNoticias();
+                                IsLoading = false;                         
                                 App.noticiasViewModel.GetCategorias();
+                                await App.noticiasViewModel.GetNoticias();
                                 App.noticiasViewModel.CargarDatosUsuario();
                                 Username = "";
                                 Password = "";

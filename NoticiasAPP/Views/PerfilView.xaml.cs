@@ -1,3 +1,4 @@
+using Microsoft.Maui.Controls;
 using NoticiasAPP.ViewModels;
 
 namespace NoticiasAPP.Views;
@@ -8,7 +9,10 @@ public partial class PerfilView : ContentPage
 	{
 		this.BindingContext = App.noticiasViewModel;
 		InitializeComponent();
-	}
+        //bordereliminar.TranslationX = 0;
+        //bordereliminar.TranslationY = 750;
+
+    }
 
     private async void Button_Clicked(object sender, EventArgs e)
     {
@@ -40,5 +44,25 @@ public partial class PerfilView : ContentPage
         var noticia = ((SwipeItem)sender).BindingContext;
 
         viewmodel.EliminarCommand.Execute(noticia);
+
+
+
+        //bordereliminar.TranslateTo(0, -100, 500, Easing.SinInOut);
+        //bordereliminar.TranslationX = 0;
+        //bordereliminar.TranslationY = 750;
+
+        //if (viewmodel.Modo == "ELIMINAR")
+        //{
+        //    bordereliminar.IsVisible = true;
+        //}
+    }
+
+    private void SwipeItem_Clicked_1(object sender, EventArgs e)
+    {
+        var viewmodel = (NoticiasViewModel)this.BindingContext;
+
+        var noticia = ((SwipeItem)sender).BindingContext;
+
+        viewmodel.VerEditarNoticiaCommand.Execute(noticia);
     }
 }

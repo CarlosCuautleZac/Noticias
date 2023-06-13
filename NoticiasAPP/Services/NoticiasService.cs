@@ -12,6 +12,7 @@ namespace NoticiasAPP.Helpers
     public class NoticiasService
     {
         public string url = "https://noticias.sistemas19.com/";
+        //public string url = "https://firstgoldbook4.conveyor.cloud/";
         private readonly AuthService auth;
         private readonly LoginService login;
         HttpClient client;

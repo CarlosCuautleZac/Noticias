@@ -11,7 +11,6 @@ using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using static Android.Provider.UserDictionary;
 
 
 namespace NoticiasAPP.ViewModels
@@ -37,6 +36,7 @@ namespace NoticiasAPP.ViewModels
         public Command FiltrarMisNoticiasPorCategoriaCommand { get; set; }
         public Command FiltrarMisNoticiasByWordCommand { get; set; }
         public Command EliminarCommand { get; set; }
+        public Command VerEditarNoticiaCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -79,34 +79,65 @@ namespace NoticiasAPP.ViewModels
             VerNuevaNoticaCommand = new Command(VerNuevaNoticia);
             FiltrarMisNoticiasPorCategoriaCommand = new Command<CategoriaDTO>(FiltrarMisNoticiasPorCategoria);
             FiltrarMisNoticiasByWordCommand = new Command<string>(FiltrarMisNoticiasByWord);
-            EliminarCommand = new Command<NoticiaDTO>(VerEliminar);
+            EliminarCommand = new Command<NoticiaDTO>(Eliminar);
+            VerEditarNoticiaCommand = new Command<NoticiaDTO>(VerEditar);
+
         }
 
-        private async void VerEliminar(NoticiaDTO noticia)
+        private async void VerEditar(NoticiaDTO noticia)
         {
-            Mensaje = "";
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            Noticia = noticia;
+            Modo = "EDITAR";
+            Imagen = noticia.Imagen;
+            OnPropertyChanged();
+            await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
+        }
+
+        private async void Eliminar(NoticiaDTO noticia)
+        {
+
+            bool answer = await App.Current.MainPage.DisplayAlert("Advertencia", "¿Estas seguro de eliminar esta noticia?", "Sí", "No");
+            if (answer)
             {
-                if (noticia == null)
-                    Mensaje += "Eliga una noticia para eliminar";
 
-                if (noticia.Id <= 0)
-                    Mensaje += "Eliga una noticia para eliminar";
 
-                if (Usuario.Id <= 0)
-                    Mensaje += "Ha ocurrido un error. Vuelva a iniciar sesion para corregirlo.";
 
-                if(Mensaje == "")
+                if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
-                    Modo = "ELIMINAR";  
-
+                    var mensaje = await noticiasService.Delete(noticia.Id, Usuario.Id);
+                    if (mensaje == "Se ha eliminado la noticia.")
+                    {
+                        await GetNoticias();
+                        FiltrarCategoria(CategoriaActual);
+                        FiltrarMisNoticiasPorCategoria(CategoriaActual);
+                        //await Shell.Current.Navigation.PopAsync(true);
+                    }
                 }
 
-                
+                else
+                {
+                    Mensaje += "No hay conexion a internet";
+                }
             }
-            else
+        }
+
+        private void VerEliminar(NoticiaDTO noticia)
+        {
+            Mensaje = "";
+
+            if (noticia == null)
+                Mensaje += "Eliga una noticia para eliminar";
+
+            if (noticia.Id <= 0)
+                Mensaje += "Eliga una noticia para eliminar";
+
+            if (Usuario.Id <= 0)
+                Mensaje += "Ha ocurrido un error. Vuelva a iniciar sesion para corregirlo.";
+
+            if (Mensaje == "")
             {
-                Mensaje += "No hay conexion a internet";
+                Modo = "ELIMINAR";
+
             }
 
             OnPropertyChanged();
@@ -172,11 +203,19 @@ namespace NoticiasAPP.ViewModels
 
         private async void VerNuevaNoticia()
         {
-            Modo = "AGREGAR";
-            Noticia = new NoticiaDTO();
-            Imagen = null;
-            OnPropertyChanged();
-            await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
+            try
+            {
+                Modo = "AGREGAR";
+                Noticia = new NoticiaDTO();
+                Imagen = null;
+                OnPropertyChanged();
+                await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
+            }
+            catch(Exception ex)
+            {
+                Mensaje = ex.Message;
+                OnPropertyChanged();
+            }
         }
 
         private async void EnviarNoticia()
@@ -204,8 +243,12 @@ namespace NoticiasAPP.ViewModels
                     Noticia.IdCategoria = Categoria.Id;
                     Noticia.IdAutor = Usuario.Id;
 
-                    Mensaje = await noticiasService.Post(Noticia);
-                    if (Mensaje == "Se ha enviado correctamente la noticia.")
+                    if (Modo == "AGREGAR")
+                        Mensaje = await noticiasService.Post(Noticia);
+                    else
+                        Mensaje = await noticiasService.Put(Noticia);
+
+                    if (Mensaje == "Se ha enviado correctamente la noticia." || Mensaje== "Se ha modificado correctamente la noticia.")
                     {
                         await GetNoticias();
 
@@ -227,6 +270,8 @@ namespace NoticiasAPP.ViewModels
 
         private async void CargarImagen()
         {
+            Imagen = null;
+
             var imagen = await FilePicker.PickAsync(new PickOptions
             {
                 FileTypes = FilePickerFileType.Images,

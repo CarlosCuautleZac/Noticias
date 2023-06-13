@@ -6,6 +6,7 @@ using NoticiasAPI.Helpers;
 using NoticiasAPI.Models;
 using NoticiasAPI.Models.DTOs;
 using NoticiasAPI.Repositories;
+using System.IO;
 using System.Linq.Expressions;
 
 namespace NoticiasAPI.Controllers
@@ -44,7 +45,7 @@ namespace NoticiasAPI.Controllers
                 ImagenAutor = GetAutor(x.IdUsuario)
             }).ToList();
 
-            return Ok(noticias_a_enviar.OrderByDescending(x=>x.Fecha));
+            return Ok(noticias_a_enviar.OrderByDescending(x => x.Fecha));
         }
 
 
@@ -120,7 +121,7 @@ namespace NoticiasAPI.Controllers
                 return Ok(noticias_a_enviar);
         }
 
-       
+
         [HttpGet("test")]
         public IActionResult GetAllTest()
         {
@@ -215,6 +216,9 @@ namespace NoticiasAPI.Controllers
 
         private void GuardarImagen(string imagen, int idnoticia)
         {
+
+            DeleteEvidence(idnoticia);
+
             var directorio = rootpath + "/img/" + idnoticia;
 
             if (!Directory.Exists(directorio))
@@ -226,7 +230,9 @@ namespace NoticiasAPI.Controllers
 
             var rutadelaimagen = $"{directorio}/1.png";
 
-            System.IO.File.WriteAllBytes(rutadelaimagen, bytesimg);
+            
+
+            System.IO.File.WriteAllBytes(rutadelaimagen.Replace("\\","/"), bytesimg);
         }
 
 
@@ -268,16 +274,25 @@ namespace NoticiasAPI.Controllers
 
                     if (n != null)
                     {
+
+                        var img = noticia.Imagen;
+
                         n.Titulo = noticia.Titulo;
                         n.Descripcion = noticia.Descripcion;
                         n.IdCategoria = noticia.IdCategoria;
-                        n.Fecha = DateTime.Now.ToMexicoTime();
+                        //n.Fecha = DateTime.Now.ToMexicoTime();
                         n.UltimaModificacion = DateTime.Now.ToMexicoTime();
+
+
 
                         repositoryNoticias.Update(n);
 
-                        if (!string.IsNullOrWhiteSpace(noticia.Imagen))
-                            GuardarImagen(noticia.Imagen, n.Id);
+                        //if (!string.IsNullOrWhiteSpace(noticia.Imagen))
+                        //    GuardarImagen(noticia.Imagen, n.Id);
+
+                        if (!string.IsNullOrWhiteSpace(img))
+                            GuardarImagen(img, n.Id);
+
 
                         return Ok();
                     }
