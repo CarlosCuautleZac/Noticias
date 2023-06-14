@@ -71,6 +71,7 @@ namespace NoticiasAPP.Helpers
         public async void Logout()
         {
             auth.RemoveToken();
+            App.loginViewModel.IsLoading = false;
             await Shell.Current.GoToAsync("//Login",true);
         }
     }

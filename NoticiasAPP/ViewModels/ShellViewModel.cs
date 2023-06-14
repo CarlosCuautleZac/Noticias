@@ -34,7 +34,7 @@ namespace NoticiasAPP.ViewModels
 
         }
 
-        private void NavigateTo(string page)
+        private async void NavigateTo(string page)
         {
             if (page == "Login")
             {
@@ -43,8 +43,9 @@ namespace NoticiasAPP.ViewModels
             }
             else if(page == "Noticias")
             {
-                App.noticiasViewModel.GetNoticias();
-                App.noticiasViewModel.GetCategorias();
+               
+               App.noticiasViewModel.GetCategorias();
+               await App.noticiasViewModel.GetNoticias();
                 App.noticiasViewModel.CargarDatosUsuario();
                 noticiasView = new();
                 Vista = noticiasView;

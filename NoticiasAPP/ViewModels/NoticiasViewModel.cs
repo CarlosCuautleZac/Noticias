@@ -220,51 +220,61 @@ namespace NoticiasAPP.ViewModels
 
         private async void EnviarNoticia()
         {
-            Mensaje = "";
-
-            if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
+            try
             {
-                if (string.IsNullOrWhiteSpace(Noticia.Titulo))
-                    Mensaje = "El titulo de la noticia no debe ir vacio." + Environment.NewLine;
+                Mensaje = "";
 
-                if (string.IsNullOrWhiteSpace(Noticia.Descripcion))
-                    Mensaje = "El cuerpo de la noticia no debe ir vacio." + Environment.NewLine;
-
-                if (Categoria == null)
-                    Mensaje = "Seleccione una categoria." + Environment.NewLine;
-
-                if (string.IsNullOrWhiteSpace(Noticia.Imagen))
+                if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 {
-                    Mensaje = "La noticia debe contener una imagen." + Environment.NewLine;
-                }
+                    if (string.IsNullOrWhiteSpace(Noticia.Titulo))
+                        Mensaje = "El titulo de la noticia no debe ir vacio." + Environment.NewLine;
 
-                if (Mensaje == "")
-                {
-                    Noticia.IdCategoria = Categoria.Id;
-                    Noticia.IdAutor = Usuario.Id;
+                    if (string.IsNullOrWhiteSpace(Noticia.Descripcion))
+                        Mensaje = "El cuerpo de la noticia no debe ir vacio." + Environment.NewLine;
 
-                    if (Modo == "AGREGAR")
-                        Mensaje = await noticiasService.Post(Noticia);
-                    else
-                        Mensaje = await noticiasService.Put(Noticia);
+                    if (Categoria == null)
+                        Mensaje = "Seleccione una categoria." + Environment.NewLine;
 
-                    if (Mensaje == "Se ha enviado correctamente la noticia." || Mensaje== "Se ha modificado correctamente la noticia.")
+                    if (string.IsNullOrWhiteSpace(Noticia.Imagen))
                     {
-                        await GetNoticias();
-
-
-                        FiltrarCategoria(CategoriaActual);
-                        FiltrarMisNoticiasPorCategoria(CategoriaActual);
-
-
-                        await Shell.Current.Navigation.PopAsync(true);
+                        Mensaje = "La noticia debe contener una imagen." + Environment.NewLine;
                     }
-                }
 
+                    if (Mensaje == "")
+                    {
+                        Noticia.IdCategoria = Categoria.Id;
+                        Noticia.IdAutor = Usuario.Id;
+
+                        if (Noticia.Id == 0)
+                            Mensaje = await noticiasService.Post(Noticia);
+                        else
+                            Mensaje = await noticiasService.Put(Noticia);
+
+                        if (Mensaje == "Se ha enviado correctamente la noticia." || Mensaje == "Se ha modificado correctamente la noticia.")
+                        {
+                            await GetNoticias();
+
+
+                            FiltrarCategoria(CategoriaActual);
+                            FiltrarMisNoticiasPorCategoria(CategoriaActual);
+
+
+                            await Shell.Current.Navigation.PopAsync(true);
+                        }
+                    }
+                    else
+                        await App.Current.MainPage.DisplayAlert("Advertencia", Mensaje, "OK");
+
+                }
+                else
+                {
+                    Mensaje = "No hay conexion a internet";
+                }
             }
-            else
+            catch(Exception ex)
             {
-                Mensaje = "No hay conexion a internet";
+                await App.Current.MainPage.DisplayAlert("Advertencia", ex.Message, "OK");
+
             }
         }
 
@@ -321,6 +331,7 @@ namespace NoticiasAPP.ViewModels
                     FiltrarCategoria(CategoriaActual);
                 }
 
+                OnPropertyChanged();
 
             }
         }
@@ -439,7 +450,8 @@ namespace NoticiasAPP.ViewModels
                     Noticias.Clear();
                     var noticias = await noticiasService.Get();
                     noticias.ToList().ForEach(x => Noticias.Add(x));
-
+                    CategoriaActual = Categorias[Categorias.Count-1];
+                    FiltrarCategoria(CategoriaActual);
 
                     IsLoading = false;
                 }
