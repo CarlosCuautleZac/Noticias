@@ -19,66 +19,68 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Priority="2" Text="Cerrar Sesion" Command="{Binding CerrarSesionCommand}"></ToolbarItem>
     </ContentPage.ToolbarItems>
-    <ScrollView>
-        <VerticalStackLayout>
 
-            <Grid Margin="15,15,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                
-                <Label FontSize="14"
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView>
+            <VerticalStackLayout>
+
+                <Grid Margin="15,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label FontSize="14"
                            Padding="0"
                        Grid.Column="0"
                            TextColor="#3e4144"
                            FontFamily="Black" Text="{Binding Ahora,Converter={StaticResource tlb}}"></Label>
-                <ImageButton Source="user"
+                    <ImageButton Source="user"
                              HeightRequest="22"
                              CornerRadius="30"
                              Command="{Binding VerPefilCommand}"
                              Grid.Column="1"
                              HorizontalOptions="End"></ImageButton>
-            </Grid>
-           
+                </Grid>
 
-            <Label Text="Explorar"
+
+                <Label Text="Explorar"
                    FontFamily="Black"
                    TextColor="#3e4144"
                    FontSize="30"
                    Margin="15,45,0,0"></Label>
-            <Label Text="Las noticias mas destacadas"
+                <Label Text="Las noticias mas destacadas"
                    FontFamily="Medium"
                    TextColor="#8c8c8c"
                    Margin="15,5,0,0"></Label>
-            <Border Margin="15,20,15,20"
+                <Border Margin="15,20,15,20"
                     StrokeThickness="0"
                     BackgroundColor="#f6f5f8"
                     StrokeShape="RoundRectangle, 50">
-                <HorizontalStackLayout>
-                    <Image Source="lupe"
+                    <HorizontalStackLayout>
+                        <Image Source="lupe"
                            HeightRequest="20"
                            Margin="10,0,0,0"></Image>
-                    <Entry Placeholder="Buscar"
+                        <Entry Placeholder="Buscar"
                            PlaceholderColor="#b1b1b1"
                            Margin="15,0,0,0" TextChanged="Entry_TextChanged"
                            BackgroundColor="Transparent"></Entry>
-                </HorizontalStackLayout>
-            </Border>
+                    </HorizontalStackLayout>
+                </Border>
 
-            <Label x:Name="CategoriaActual" Text="{Binding CategoriaActual.Nombre}" IsVisible="false"></Label>
+                <Label x:Name="CategoriaActual" Text="{Binding CategoriaActual.Nombre}" IsVisible="false"></Label>
 
                 <ScrollView Orientation="Horizontal" Margin="15,0,0,0">
-                <CollectionView Margin="15,0,0,0"
+                    <CollectionView Margin="15,0,0,0"
                                   FlowDirection="RightToLeft" ItemsSource="{Binding Categorias}">
 
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout HorizontalItemSpacing="10" Orientation="Horizontal" Span="1"></GridItemsLayout>
-                    </CollectionView.ItemsLayout>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout HorizontalItemSpacing="10" Orientation="Horizontal" Span="1"></GridItemsLayout>
+                        </CollectionView.ItemsLayout>
 
                         <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="models:CategoriaDTO">
-                            <Button x:Name="buttonn"
+                            <DataTemplate x:DataType="models:CategoriaDTO">
+                                <Button x:Name="buttonn"
                         CornerRadius="15"  TextColor="{Binding ., Converter={StaticResource ttc}}"
                         HeightRequest="40" BackgroundColor="{Binding ., Converter={StaticResource clt}, UpdateSourceEventName=PropertyChanged}"
                                     
@@ -86,81 +88,84 @@
                                     Clicked="Button_Clicked"
                         Text="{Binding Nombre}"
                         >
-                            </Button>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
+                                </Button>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </ScrollView>
 
-            
-            
-            <CollectionView ItemsSource="{Binding NoticiasFiltradas}" Margin="15,20,15,50">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:NoticiaDTO">
-                        <Grid Margin="0,0,0,20" HeightRequest="120">
-                            <Grid.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
-                            </Grid.GestureRecognizers>
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="120"></ColumnDefinition>
-                                <ColumnDefinition Width="1*"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Frame Padding="0"
+
+
+                <CollectionView ItemsSource="{Binding NoticiasFiltradas}" Margin="15,20,15,50">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:NoticiaDTO">
+                            <Grid Margin="0,0,0,20" HeightRequest="120">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"></TapGestureRecognizer>
+                                </Grid.GestureRecognizers>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"></ColumnDefinition>
+                                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Frame Padding="0"
                            CornerRadius="12">
-                                <Image Source="{Binding Imagen}"
+                                    <Image Source="{Binding Imagen}"
                            Aspect="AspectFill">
 
-                                    <Image.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
-                                    </Image.GestureRecognizers>
-                           </Image>
-                            </Frame>
-                            <Grid Grid.Column="1"
+                                        <Image.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped_1"></TapGestureRecognizer>
+                                        </Image.GestureRecognizers>
+                                    </Image>
+                                </Frame>
+                                <Grid Grid.Column="1"
                           Margin="10,0,0,0">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="20"></RowDefinition>
-                                    <RowDefinition Height="1*"></RowDefinition>
-                                    <RowDefinition Height="20"></RowDefinition>
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"></RowDefinition>
+                                        <RowDefinition Height="1*"></RowDefinition>
+                                        <RowDefinition Height="20"></RowDefinition>
+                                    </Grid.RowDefinitions>
 
-                                <Label Text="{Binding Categoria}"
+                                    <Label Text="{Binding Categoria}"
                                FontFamily="Medium"
                                VerticalOptions="Start"
                                TextColor="#b1b1b1"></Label>
-                                <Label Text="{Binding Titulo}"
+                                    <Label Text="{Binding Titulo}"
                                FontFamily="Black"
                                FontSize="18"
                                VerticalOptions="Center"
                                Grid.Row="1"></Label>
-                                <HorizontalStackLayout Grid.Row="2"
+                                    <HorizontalStackLayout Grid.Row="2"
                                                VerticalOptions="End"
                                                Spacing="10">
-                                    <Frame Padding="0"
+                                        <Frame Padding="0"
                                            CornerRadius="20">
-                                        <Image Source="{Binding ImagenAutor}"
+                                            <Image Source="{Binding ImagenAutor}"
                                                Aspect="AspectFill"></Image>
 
-                                    </Frame>
-                                    <Label Text="{Binding Autor}"
+                                        </Frame>
+                                        <Label Text="{Binding Autor}"
                                    FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#b1b1b1"></Label>
-                                    <Label FontFamily="Black"
+                                        <Label FontFamily="Black"
                                    VerticalOptions="Center"
                                    TextColor="#8c8c8c">&#183;</Label>
-                                    <Label FontFamily="Light"
+                                        <Label FontFamily="Light"
                                    VerticalOptions="Center"
                                    TextColor="#8c8c8c" Text="{Binding Fecha,StringFormat='{}{0:dd/MM/yyyy}'}"></Label>
-                                </HorizontalStackLayout>
+                                    </HorizontalStackLayout>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-                
-                
-             
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+
+
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+    
+    
 </ContentPage>

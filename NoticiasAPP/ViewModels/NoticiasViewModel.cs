@@ -37,6 +37,7 @@ namespace NoticiasAPP.ViewModels
         public Command FiltrarMisNoticiasByWordCommand { get; set; }
         public Command EliminarCommand { get; set; }
         public Command VerEditarNoticiaCommand { get; set; }
+        public Command RefreshCommand { get; set; }
 
         //Propiedades
         public ObservableCollection<NoticiaDTO> Noticias { get; set; } = new();
@@ -56,6 +57,7 @@ namespace NoticiasAPP.ViewModels
         public string Modo { get; set; } = "";
         public ImageSource Imagen { get; set; }
         public Usuario Usuario { get; set; } = new();
+        public bool IsRefreshing { get; set; } = false;
 
 
 
@@ -81,7 +83,7 @@ namespace NoticiasAPP.ViewModels
             FiltrarMisNoticiasByWordCommand = new Command<string>(FiltrarMisNoticiasByWord);
             EliminarCommand = new Command<NoticiaDTO>(Eliminar);
             VerEditarNoticiaCommand = new Command<NoticiaDTO>(VerEditar);
-
+            RefreshCommand = new Command(Recargar);
         }
 
         private async void VerEditar(NoticiaDTO noticia)
@@ -211,7 +213,7 @@ namespace NoticiasAPP.ViewModels
                 OnPropertyChanged();
                 await Shell.Current.Navigation.PushAsync(new AddEditView(), true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Mensaje = ex.Message;
                 OnPropertyChanged();
@@ -271,7 +273,7 @@ namespace NoticiasAPP.ViewModels
                     Mensaje = "No hay conexion a internet";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 await App.Current.MainPage.DisplayAlert("Advertencia", ex.Message, "OK");
 
@@ -431,6 +433,25 @@ namespace NoticiasAPP.ViewModels
             {
                 Mensaje = "Seleccione una noticia para continuar";
             }
+        }
+
+        [Obsolete]
+        public  void Recargar()
+        {
+            Thread hiloRecarga = new(new ThreadStart( async () =>
+            {
+              
+                    IsRefreshing = true;
+                    OnPropertyChanged(nameof(IsRefreshing));
+                    await GetNoticias();
+                    IsRefreshing = false;
+                    OnPropertyChanged();
+               
+                
+            }));
+
+            hiloRecarga.IsBackground = true;
+            hiloRecarga.Start();
         }
 
         public async Task GetNoticias()

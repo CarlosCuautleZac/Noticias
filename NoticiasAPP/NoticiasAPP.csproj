@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>NoticiasAPP</ApplicationTitle>
+		<ApplicationTitle>NewsNow</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.noticiasapp</ApplicationId>
